@@ -13,14 +13,22 @@
         <div class="input-area">
             <label for="framework">Prompt Framework:</label>
             <select id="framework">
-                <option value="simple">Simple Instruction</option>
-                <option value="roleplay">Role-Playing</option>
-                <option value="question">Question/Answer</option>
-                <option value="rtf">Role - Task - Format</option>  <!-- Added R-T-F -->
+                <option value="rtf" selected>R-T-F: Act as [Role], Create a [Task], Show as [Format]</option>
+                <option value="roleplay">Role-Playing: Act as [Role], Perform [Task]</option>
+                <option value="question">Question/Answer:  Ask a [Question]</option>
+                <option value="simple" >Simple Instruction:  Give a simple [Instruction]</option>
             </select>
 
             <div id="input-fields">
                 <!-- Input fields will be dynamically added here -->
+                <label for="roleRtf">Role:</label>
+                <input type="text" id="roleRtf" name="roleRtf" oninput="generatePrompt()">
+
+                <label for="taskRtf">Task:</label>
+                <input type="text" id="taskRtf" name="taskRtf" oninput="generatePrompt()">
+
+                <label for="formatRtf">Format:</label>
+                <input type="text" id="formatRtf" name="formatRtf" oninput="generatePrompt()">
             </div>
         </div>
 
