@@ -12,7 +12,7 @@
 
         <div class="input-area">
             <label for="framework">Prompt Framework:</label>
-            <select id="framework">
+            <select id="framework" onchange="updateInputFields()">
                 <option value="rtf" selected>R-T-F: Act as [Role], Create a [Task], Show as [Format]</option>
                 <option value="roleplay">Role-Playing: Act as [Role], Perform [Task]</option>
                 <option value="question">Question/Answer:  Ask a [Question]</option>
@@ -25,7 +25,7 @@
                 <input type="text" id="roleRtf" name="roleRtf" oninput="generatePrompt()">
 
                 <label for="taskRtf">Task:</label>
-                <input type="text" id="taskRtf" name="taskRtf" oninput="generatePrompt()">
+                <textarea id="taskRtf" name="taskRtf" rows="3" oninput="generatePrompt()"></textarea>
 
                 <label for="formatRtf">Format:</label>
                 <input type="text" id="formatRtf" name="formatRtf" oninput="generatePrompt()">
