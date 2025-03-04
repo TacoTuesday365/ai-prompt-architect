@@ -34,7 +34,7 @@ function App() {
   const [selectedFramework, setSelectedFramework] = useState(frameworksData[0]);
   const [prompt, setPrompt] = useState('');
   const [componentValues, setComponentValues] = useState({});
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('Unlock the power of AI with structured prompt frameworks!');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Prompt Generator</h1>
+      <h1 style={{ backgroundColor: '#222', padding: '10px', borderRadius: '5px' }}>Prompt Generator</h1>
       <p>{message}</p>
       <div>
         <label htmlFor="framework">Select Framework:</label>
@@ -93,6 +93,7 @@ function App() {
               id={component.label}
               value={componentValues[component.label] || ''}
               onChange={(e) => handleComponentValueChange(component.label, e.target.value)}
+              style={{ width: '400px' }} // Adjusted width here
             />
             <p style={{ fontSize: '0.8em', color: '#999' }}>
               {component.helpText}
