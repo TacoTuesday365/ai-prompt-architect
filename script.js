@@ -6,41 +6,44 @@ frameworkSelect.addEventListener('change', updateInputFields);
 
 function updateInputFields() {
     const selectedFramework = frameworkSelect.value;
-    inputFieldsDiv.innerHTML = ''; // Clear previous inputs
+    // Clear previous inputs
+    if(selectedFramework == 'rtf'){
+         inputFieldsDiv.innerHTML = `
+         <label for="roleRtf">Role:</label>
+         <input type="text" id="roleRtf" name="roleRtf" oninput="generatePrompt()">
 
-    switch (selectedFramework) {
-        case 'simple':
-            createInputField('instruction', 'Instruction:');
-            break;
-        case 'roleplay':
-            createInputField('role', 'Role:');
-            createInputField('task', 'Task:');
-            break;
-        case 'question':
-            createInputField('questionText', 'Question:');
-            break;
-        case 'rtf': // Added R-T-F
-            createInputField('roleRtf', 'Role:');
-            createInputField('taskRtf', 'Task:');
-            createInputField('formatRtf', 'Format:');
-            break;
+         <label for="taskRtf">Task:</label>
+         <input type="text" id="taskRtf" name="taskRtf" oninput="generatePrompt()">
+
+         <label for="formatRtf">Format:</label>
+         <input type="text" id="formatRtf" name="formatRtf" oninput="generatePrompt()">
+         `
+    }
+    if(selectedFramework == 'roleplay'){
+         inputFieldsDiv.innerHTML = `
+         <label for="role">Role:</label>
+         <input type="text" id="role" name="role" oninput="generatePrompt()">
+
+         <label for="task">Task:</label>
+         <input type="text" id="task" name="task" oninput="generatePrompt()">
+         `
+    }
+    if(selectedFramework == 'question'){
+         inputFieldsDiv.innerHTML = `
+         <label for="questionText">Question:</label>
+         <input type="text" id="questionText" name="questionText" oninput="generatePrompt()">
+         `
+    }
+    if(selectedFramework == 'simple'){
+         inputFieldsDiv.innerHTML = `
+         <label for="instruction">Instruction:</label>
+         <input type="text" id="instruction" name="instruction" oninput="generatePrompt()">
+         `
     }
 }
 
 function createInputField(id, labelText) {
-    const label = document.createElement('label');
-    label.setAttribute('for', id);
-    label.textContent = labelText;
-
-    const input = document.createElement('input');
-    input.setAttribute('type', 'text');
-    input.setAttribute('id', id);
-    input.setAttribute('name', id);
-
-    inputFieldsDiv.appendChild(label);
-    inputFieldsDiv.appendChild(input);
-
-    input.addEventListener('input', generatePrompt); // Generate prompt on input
+    //Not needed anymore
 }
 
 function generatePrompt() {
