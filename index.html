@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Architect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Prompt Architect</h1>
+
+        <div class="input-area">
+            <label for="framework">Prompt Framework:</label>
+            <select id="framework">
+                <option value="simple">Simple Instruction</option>
+                <option value="roleplay">Role-Playing</option>
+                <option value="question">Question/Answer</option>
+                <option value="rtf">Role - Task - Format</option>  <!-- Added R-T-F -->
+            </select>
+
+            <div id="input-fields">
+                <!-- Input fields will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="output-area">
+            <h2>Generated Prompt:</h2>
+            <textarea id="prompt-output" rows="5" cols="50" readonly></textarea>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
