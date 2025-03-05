@@ -10,13 +10,13 @@ function App() {
   useEffect(() => {
     const fetchFrameworks = async () => {
       try {
-        const response = await fetch('/frameworks.json'); // Path to your frameworks.json file
+        const response = await fetch('/frameworks.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         setFrameworksData(data);
-        setSelectedFramework(data[0]); // Select the first framework by default
+        setSelectedFramework(data[0]);
       } catch (error) {
         console.error('Could not fetch frameworks:', error);
         setMessage('Error loading frameworks. Please check the console.');
