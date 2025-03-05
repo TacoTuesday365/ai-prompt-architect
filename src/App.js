@@ -8,6 +8,7 @@ function App() {
   const [componentValues, setComponentValues] = useState({});
   const [message, setMessage] = useState('PromptArchi helps you design effective AI prompts using structured frameworks!');
   const [generatedResponse, setGeneratedResponse] = useState('');
+  const [showPromptModal, setShowPromptModal] = useState(false); // State for displaying prompt modal
 
   useEffect(() => {
     const fetchFrameworks = async () => {
@@ -34,7 +35,7 @@ function App() {
     setSelectedFramework(framework);
     setComponentValues({});
     setPrompt('');
-    setGeneratedResponse(''); // Clear the generated response when the framework changes
+    setGeneratedResponse('');
   };
 
   const handleComponentValueChange = (label, value) => {
@@ -49,6 +50,9 @@ function App() {
       });
     }
     setPrompt(promptText);
+    
+    // Display the prompt in a modal before sending to API
+    setShowPromptModal(true);
 
     // Construct the request to your Netlify function
     try {
@@ -122,8 +126,51 @@ function App() {
         <h2>Optimized Prompt:</h2>
         <pre>{generatedResponse}</pre>
       </div>
+
+      {/* Prompt Modal */}
+      {showPromptModal && (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h3>Generated Prompt</h3>
+            <pre>{prompt}</pre>
+            <button onClick={() => setShowPromptModal(false)} style={closeButtonStyle}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+const modalStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000,
+};
+
+const modalContentStyle = {
+  backgroundColor: 'white',
+  padding: '20px',
+  borderRadius: '5px',
+  maxWidth: '500px',
+  width: '80%',
+  textAlign: 'center',
+};
+
+const closeButtonStyle = {
+  backgroundColor: '#ff4c4c',
+  color: 'white',
+  padding: '10px',
+  border: 'none',
+  cursor: 'pointer',
+  borderRadius: '5px',
+  marginTop: '20px',
+};
 
 export default App;
