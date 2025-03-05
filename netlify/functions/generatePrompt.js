@@ -1,33 +1,28 @@
-import fetch from "node-fetch";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function handler(event) {
   try {
     const { prompt } = JSON.parse(event.body);
     const apiKey = process.env.GOOGLE_API_KEY; // Securely access API key
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    });
+    // Initialize the Google Generative AI model
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const data = await response.json();
-    if (!response.ok) {
-      console.log("Google API Error:", data);  // Log detailed error from Google API
-      throw new Error(`Google API Error: ${data.error.message}`);
-    }
+    // Generate content with the prompt
+    const result = await model.generateContent(prompt);
 
+    // Log result and return the generated response
+    console.log("Generated Content:", result.response.text());  // Logs the generated text for debugging
     return {
       statusCode: 200,
-      body: JSON.stringify({ refinedPrompt: data.generatedText || 'No output from API' })
+      body: JSON.stringify({ refinedPrompt: result.response.text() }),
     };
   } catch (error) {
-    console.error('Error in function:', error);  // Log the error
+    console.error("Error in function:", error);  // Logs the error in case something goes wrong
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: error.message }),
     };
   }
 }
