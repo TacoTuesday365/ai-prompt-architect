@@ -1,37 +1,44 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch'); // Make sure you're using the correct version of node-fetch
 
-exports.handler = async function(event, context) {
+exports.handler = async (event) => {
   try {
-    const { prompt } = JSON.parse(event.body);
+    const apiKey = process.env.GOOGLE_API_KEY; // Securely access your Google API key
+    const prompt = JSON.parse(event.body).prompt;
 
-    // Call Google API to generate content
-    const apiKey = process.env.GOOGLE_API_KEY;
+    // Make a POST request to the Gemini API
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      }),
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ]
+      })
     });
 
     const data = await response.json();
-    if (response.ok) {
+
+    // Handle any error response from the API
+    if (data.error) {
       return {
-        statusCode: 200,
-        body: JSON.stringify({ generatePrompt: data.response.text }), // Return updated field name
-      };
-    } else {
-      return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: data.error.message || "Unknown error" }),
+        statusCode: 500,
+        body: JSON.stringify({ error: data.error.message })
       };
     }
+
+    // Return the API response as a JSON object
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ response: data })
+    };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: error.message })
     };
   }
 };
