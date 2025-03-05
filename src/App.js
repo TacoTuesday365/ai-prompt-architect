@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 style={{ backgroundColor: '#222', padding: '10px', borderRadius: '5px' }}>Prompt Generator</h1>
+      <h1 style={{ backgroundColor: '#222', padding: '10px', borderRadius: '5px' }}>Prompt Archi - Pro AI Prompt Architect</h1>
       <p>{message}</p>
       <div>
         <label htmlFor="framework">Select Framework:</label>
