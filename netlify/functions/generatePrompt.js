@@ -22,6 +22,8 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
+    console.log('Google API response:', data); // Log the response for debugging
+
     // Handle any error response from the API
     if (data.error) {
       return {
