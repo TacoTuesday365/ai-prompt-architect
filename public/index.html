@@ -1,66 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI-Prompt-Architect</title>
     <style>
-      body {
-        font-family: sans-serif;
-        background-color: #000; /* Dark Background */
-        color: #fff; /* Light Text */
-        margin: 20px;
-      }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern Font */
+            background-color: #343541; /* ChatGPT Dark Background */
+            color: #fff; /* Light Text */
+            margin: 0; /* Remove Default Margins */
+            padding: 0;
+        }
 
-      h1,
-      h2 {
-        color: #00ff00; /* Neon Green */
-      }
+        .App {
+            max-width: 800px; /* Limit Width */
+            margin: 20px auto; /* Center and add margin */
+            padding: 20px;
+        }
 
-      label {
-        color: #00ffff; /* Neon Blue */
-        display: block;
-        margin-top: 10px;
-      }
+        h1, h2 {
+            color: #eee; /* Muted Heading Color */
+            text-align: center;
+        }
 
-      input,
-      select {
-        background-color: #222; /* Darker Input Background */
-        color: #00ff00; /* Neon Green Text */
-        border: 1px solid #00ffff; /* Neon Blue Border */
-        padding: 8px;
-        margin-top: 5px;
-        width: 100%; /* Make them full width */
-        box-sizing: border-box; /* Include padding and border in width */
-      }
+        label {
+            color: #d1d5db; /* Muted Label Color */
+            display: block;
+            margin-top: 10px;
+        }
 
-      button {
-        background-color: #00ffff; /* Neon Blue Button */
-        color: #000;
-        border: none;
-        padding: 10px 20px;
-        margin-top: 20px;
-        cursor: pointer;
-      }
+        input, select {
+            background-color: #40414f; /* Darker Input Background */
+            color: #fff;
+            border: none; /* Remove Border */
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px; /* Rounded Corners */
+        }
 
-      pre {
-        background-color: #222; /* Darker Pre Background */
-        color: #00ff00; /* Neon Green Text */
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-        width: 100%; /* Make them full width */
-        box-sizing: border-box; /* Include padding and border in width */
-      }
+        button {
+            background-color: #10a37f; /* ChatGPT Green */
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease; /* Smooth Transition */
+        }
 
-      .App > p {
-        color: #00ffff; /* Neon Blue */
-      }
+        button:hover {
+            background-color: #0e8a6b; /* Darker Green on Hover */
+        }
 
+        pre {
+            background-color: #202123; /* Darker Code Background */
+            color: #eee;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            overflow-x: auto; /* Scroll for long prompts */
+        }
+
+        select {
+            appearance: none; /* Remove default arrow */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d1d5db'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 16px;
+            padding-right: 30px;
+        }
+
+        /* Remove message in the theme */
+        .App > p{
+            display:none;
+        }
+
+        /* Give Description to label */
+        p{
+            color: #d1d5db; /* Muted Label Color */
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-  </body>
+</body>
 </html>
