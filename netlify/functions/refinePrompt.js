@@ -3,8 +3,9 @@ import fetch from "node-fetch";
 export async function handler(event) {
   try {
     const { prompt } = JSON.parse(event.body);
+    const apiKey = process.env.GOOGLE_API_KEY; // Securely access API key
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/text-bison-001:generateText?key=YOUR_GOOGLE_API_KEY", {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/text-bison-001:generateText?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
