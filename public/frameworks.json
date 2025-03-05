@@ -1,74 +1,134 @@
 [
-  {
-    "name": "R-T-F",
-    "description": "Defines the role, task, and format",
-    "components": [
-      {
-        "label": "Role",
-        "type": "text",
-        "helpText": "The persona or role the AI should adopt (e.g., \"Facebook Ad Marketer\")",
-        "example": "Facebook Ad Marketer"
-      },
-      {
-        "label": "Task",
-        "type": "text",
-        "helpText": "The specific task you want the AI to perform (e.g., \"Design a Facebook ad campaign\")",
-        "example": "Design a compelling Facebook ad campaign to promote a new line of fitness apparel for a sports brand."
-      },
-      {
-        "label": "Format",
-        "type": "text",
-        "helpText": "How the AI should present the output (e.g., \"Create a storyboard\")",
-        "example": "Create a storyboard outlining the sequence of ad creatives, including ad copy, visuals, and targeting strategy."
-      }
-    ]
-  },
-  {
-    "name": "T-A-G",
-    "description": "Defines a task, an action, and a goal",
-    "components": [
-      {
-        "label": "Task",
-        "type": "text",
-        "helpText": "What task needs to be done",
-        "example": "The task is to evaluate the performance of team members"
-      },
-      {
-        "label": "Action",
-        "type": "text",
-        "helpText": "What actions to take",
-        "example": "Act as a Direct manager and assess the strengths and weaknesses of team members"
-      },
-      {
-        "label": "Goal",
-        "type": "text",
-        "helpText": "What is the goal",
-        "example": "Goal is to improve team performance so that the average user satisfaction score moves from 6 to 7.5 in the next quarter"
-      }
-    ]
-  },
-  {
-    "name": "B-A-B",
-    "description": "Defines the before, after, and bridge",
-    "components": [
-      {
-        "label": "Before",
-        "type": "text",
-        "helpText": "Explain Problem",
-        "example": "We're nowhere to be seen on SEO rankings"
-      },
-      {
-        "label": "After",
-        "type": "text",
-        "helpText": "State Outcome",
-        "example": "We want to be in top 10 SEO ranking in our niche in 90 days"
-      },
-      {
-        "label": "Bridge",
-        "type": "text",
-        "helpText": "Ask for the solution",
-        "example": "Develop a detailed plan for mentioning all the measures we should take also include list of top 20 keywords"
-      }
-    ]
-  }
+    {
+        "name": "R-T-F",
+        "description": "Defines the role, task, and format",
+        "components": [
+            {
+                "label": "Role",
+                "type": "text",
+                "helpText": "The persona or role the AI should adopt (e.g., \"Facebook Ad Marketer\")",
+                "example": "Facebook Ad Marketer"
+            },
+            {
+                "label": "Task",
+                "type": "text",
+                "helpText": "The specific task you want the AI to perform (e.g., \"Design a Facebook ad campaign\")",
+                "example": "Design a compelling Facebook ad campaign to promote a new line of fitness apparel for a sports brand."
+            },
+            {
+                "label": "Format",
+                "type": "text",
+                "helpText": "How the AI should present the output (e.g., \"Create a storyboard\")",
+                "example": "Create a storyboard outlining the sequence of ad creatives, including ad copy, visuals, and targeting strategy."
+            }
+        ]
+    },
+    {
+        "name": "T-A-G",
+        "description": "Defines a task, an action, and a goal",
+        "components": [
+            {
+                "label": "Task",
+                "type": "text",
+                "helpText": "What task needs to be done",
+                "example": "The task is to evaluate the performance of team members"
+            },
+            {
+                "label": "Action",
+                "type": "text",
+                "helpText": "What actions to take",
+                "example": "Act as a Direct manager and assess the strengths and weaknesses of team members"
+            },
+            {
+                "label": "Goal",
+                "type": "text",
+                "helpText": "What is the goal",
+                "example": "Goal is to improve team performance so that the average user satisfaction score moves from 6 to 7.5 in the next quarter"
+            }
+        ]
+    },
+    {
+        "name": "B-A-B",
+        "description": "Defines the before, after, and bridge",
+        "components": [
+            {
+                "label": "Before",
+                "type": "text",
+                "helpText": "Explain Problem",
+                "example": "We're nowhere to be seen on SEO rankings"
+            },
+            {
+                "label": "After",
+                "type": "text",
+                "helpText": "State Outcome",
+                "example": "We want to be in top 10 SEO ranking in our niche in 90 days"
+            },
+            {
+                "label": "Bridge",
+                "type": "text",
+                "helpText": "Ask for the solution",
+                "example": "Develop a detailed plan for mentioning all the measures we should take also include list of top 20 keywords"
+            }
+        ]
+    },
+    {
+        "name": "C-A-R-E",
+        "description": "Defines the Context, Action, Result, and Example",
+        "components": [
+            {
+                "label": "Context",
+                "type": "text",
+                "helpText": "Give the context",
+                "example": "We are launching a new line of sustainable clothing"
+            },
+            {
+                "label": "Action",
+                "type": "text",
+                "helpText": "Describe Action",
+                "example": "Can you assist us in creating a targeted advertising campaign that emphasizes our environmental commitment?"
+            },
+            {
+                "label": "Result",
+                "type": "text",
+                "helpText": "Clarify the result",
+                "example": "Our desired outcome is to drive product awareness and sales"
+            },
+            {
+                "label": "Example",
+                "type": "text",
+                "helpText": "Give the example",
+                "example": "A good example of a similar successful initiative is Patagonia's \"Don't Buy This Jacket\" campaign, which highlighted their commitment to sustainability while enhancing their brand image."
+            }
+        ]
+    },
+    {
+        "name": "R-I-S-E",
+        "description": "Defines the Role, Input, Steps, and Expectation",
+        "components": [
+            {
+                "label": "Role",
+                "type": "text",
+                "helpText": "Specify the Role",
+                "example": "Imagine you are a content strategist"
+            },
+            {
+                "label": "Input",
+                "type": "text",
+                "helpText": "Describe the Input",
+                "example": "I've gathered detailed information about our target audience, including their interests & common questions related to our industry."
+            },
+            {
+                "label": "Steps",
+                "type": "text",
+                "helpText": "Ask for Steps",
+                "example": "Provide a Step by Step content strategy plan identifying key topics based on our audience insights, creating an editorial calendar, and drafting engaging content that aligns with our brand message."
+            },
+            {
+                "label": "Expectation",
+                "type": "text",
+                "helpText": "Describe the Expectation",
+                "example": "Aim is to increase our blog's monthly visitors by 40% and Enhance our brand's position as a thought leader in our industry."
+            }
+        ]
+    }
 ]
