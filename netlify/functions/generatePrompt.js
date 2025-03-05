@@ -1,51 +1,44 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+const fetch = require('node-fetch'); // Make sure you're using the correct version of node-fetch
 
-// Create an instance of the Google API client
-const genAI = new GoogleGenerativeAI({ apiKey: process.env.GOOGLE_API_KEY }); // Updated to use GOOGLE_API_KEY
+exports.handler = async (event) => {
+  try {
+    const apiKey = process.env.GOOGLE_API_KEY; // Securely access your Google API key
+    const prompt = JSON.parse(event.body).prompt;
 
-// This is the status check endpoint
-export async function handler(event) {
-  if (event.httpMethod === 'GET' && event.path === '/status') {
-    try {
-      // Ping the Google API to check if it's responsive
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      await model.generateContent("Ping to check API readiness");
+    // Make a POST request to the Gemini API
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ]
+      })
+    });
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ status: "ready" }),  // Response for health check
-      };
-    } catch (error) {
-      console.error("Error checking Google API status:", error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ status: "not ready", error: error.message }),
-      };
-    }
-  }
+    const data = await response.json();
 
-  // Handle the actual prompt generation logic
-  if (event.httpMethod === 'POST' && event.path === '/generatePrompt') {
-    try {
-      const { prompt } = JSON.parse(event.body);
-
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt);
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ refinedPrompt: result.response.text() }),
-      };
-    } catch (error) {
+    // Handle any error response from the API
+    if (data.error) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: error.message }),
+        body: JSON.stringify({ error: data.error.message })
       };
     }
-  }
 
-  return {
-    statusCode: 404,
-    body: JSON.stringify({ error: "Not Found" }),
-  };
-}
+    // Return the API response as a JSON object
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ response: data })
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
+  }
+};
