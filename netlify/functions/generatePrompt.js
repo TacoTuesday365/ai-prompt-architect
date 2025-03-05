@@ -1,4 +1,3 @@
-// .netlify/functions/generatePrompt.js
 import fetch from "node-fetch";
 
 export async function handler(event) {
@@ -10,22 +9,25 @@ export async function handler(event) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: prompt }
-            ]
-          }
-        ]
+        contents: [{ parts: [{ text: prompt }] }]
       })
     });
 
     const data = await response.json();
+    if (!response.ok) {
+      console.log("Google API Error:", data);  // Log detailed error from Google API
+      throw new Error(`Google API Error: ${data.error.message}`);
+    }
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ refinedPrompt: data.contents[0].parts[0].text }) // Adjusted response structure
+      body: JSON.stringify({ refinedPrompt: data.generatedText || 'No output from API' })
     };
   } catch (error) {
-    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+    console.error('Error in function:', error);  // Log the error
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
   }
 }
