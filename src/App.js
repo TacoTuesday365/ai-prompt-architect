@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import React, { useState, useEffect, useCallback } from 'react';
 
 function App() {
