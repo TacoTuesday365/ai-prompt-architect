@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './App.css'; // For adding custom styles, if needed
+import './App.css'; // Import the App.css file
 
 function App() {
   const [frameworksData, setFrameworksData] = useState([]);
