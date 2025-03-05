@@ -1,5 +1,5 @@
+// src/App.js
 import React, { useState, useEffect, useCallback } from 'react';
-import './App.css'; // Import the App.css file
 
 function App() {
   const [frameworksData, setFrameworksData] = useState([]);
@@ -8,7 +8,6 @@ function App() {
   const [componentValues, setComponentValues] = useState({});
   const [message, setMessage] = useState('PromptArchi helps you design effective AI prompts using structured frameworks!');
   const [generatedResponse, setGeneratedResponse] = useState('');
-  const [showPrompt, setShowPrompt] = useState(false); // State to toggle prompt display
 
   useEffect(() => {
     const fetchFrameworks = async () => {
@@ -35,8 +34,7 @@ function App() {
     setSelectedFramework(framework);
     setComponentValues({});
     setPrompt('');
-    setGeneratedResponse('');
-    setShowPrompt(false); // Hide prompt on framework change
+    setGeneratedResponse(''); // Clear the generated response when the framework changes
   };
 
   const handleComponentValueChange = (label, value) => {
@@ -51,7 +49,6 @@ function App() {
       });
     }
     setPrompt(promptText);
-    setShowPrompt(true); // Show prompt before sending
 
     // Construct the request to your Netlify function
     try {
@@ -60,7 +57,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: promptText }),
+        body: JSON.stringify({ prompt: promptText }), // Send the prompt text to the API
       });
 
       if (!response.ok) {
@@ -68,7 +65,7 @@ function App() {
       }
 
       const data = await response.json();
-      setGeneratedResponse(data.generatedText);
+      setGeneratedResponse(data.refinedPrompt); // Adjust based on the response structure
     } catch (error) {
       console.error('Error calling function:', error);
       setGeneratedResponse('Error calling function: ' + error);
@@ -121,16 +118,6 @@ function App() {
         </div>
       )}
       <button onClick={generatePrompt}>Generate Optimized Prompt</button>
-
-      {/* Display the prompt before sending to API */}
-      {showPrompt && (
-        <div className="prompt-display">
-          <h3>Generated Prompt:</h3>
-          <pre className="prompt-text">{prompt}</pre>
-          <div className="loading-animation">Sending to Google API...</div>
-        </div>
-      )}
-
       <div>
         <h2>Optimized Prompt:</h2>
         <pre>{generatedResponse}</pre>
