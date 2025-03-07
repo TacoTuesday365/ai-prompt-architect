@@ -10,14 +10,18 @@ export async function generatePrompt({ framework, formData }: GeneratePromptPara
   const apiKey = import.meta.env.GOOGLE_API_KEY
 
   if (!apiKey) {
+    console.error('API Key not found in environment:', import.meta.env)
     throw new Error('Google API key is not configured')
   }
 
-  // Initialize the Google AI model
-  const genAI = new GoogleGenerativeAI(apiKey)
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+  console.log('Initializing with framework:', framework.name)
+  
+  try {
+    // Initialize the Google AI model
+    const genAI = new GoogleGenerativeAI(apiKey)
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
-  const prompt = `You are an AI prompt engineering expert.
+    const prompt = `You are an AI prompt engineering expert.
 Your task is to create an effective prompt using the ${framework.name}.
 Follow the framework's structure and components to create a well-crafted prompt.
 
@@ -27,12 +31,28 @@ ${framework.components.map(component => `${component}: ${formData[component] || 
 Please create a refined, effective prompt that incorporates all these components following the ${framework.name} structure.
 The prompt should be clear, specific, and designed to get the best possible response from an AI model.`
 
-  try {
+    console.log('Sending prompt to Gemini:', { framework: framework.name, components: framework.components })
+    
     const result = await model.generateContent(prompt)
+    console.log('Received response from Gemini:', result)
+    
     const response = await result.response
-    return response.text()
+    const finalText = response.text()
+    
+    console.log('Processed response:', finalText)
+    return finalText
+
   } catch (error) {
-    console.error('Error generating prompt:', error)
+    console.error('Detailed error in generatePrompt:', {
+      error,
+      framework: framework.name,
+      apiKeyExists: !!apiKey,
+      environmentVars: import.meta.env
+    })
+    
+    if (error instanceof Error) {
+      throw new Error(`Failed to generate prompt: ${error.message}`)
+    }
     throw error
   }
 } 

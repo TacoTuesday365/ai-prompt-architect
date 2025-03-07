@@ -53,12 +53,18 @@ const FrameworkDetail = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Submit button clicked')
+    console.log('Form data:', formData)
+    console.log('Current framework:', framework)
+    
     setIsLoading(true)
     setError('')
     setGeneratedPrompt('')
 
     try {
+      console.log('About to call generatePrompt')
       const prompt = await generatePrompt({ framework, formData })
+      console.log('Generated prompt:', prompt)
       setGeneratedPrompt(prompt)
       toast({
         title: 'Prompt generated',
@@ -68,6 +74,7 @@ const FrameworkDetail = () => {
         isClosable: true,
       })
     } catch (err) {
+      console.error('Error in handleSubmit:', err)
       setError(err instanceof Error ? err.message : 'Failed to generate prompt')
       toast({
         title: 'Error',
@@ -125,6 +132,7 @@ const FrameworkDetail = () => {
               size="lg"
               isLoading={isLoading}
               loadingText="Generating..."
+              onClick={() => console.log('Button clicked directly')}
             >
               Generate Prompt
             </Button>
