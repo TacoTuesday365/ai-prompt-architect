@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useParams, Link as RouterLink } from 'react-router-dom'
 import {
   Box,
@@ -16,14 +16,22 @@ import {
   Badge,
   HStack,
   useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react'
 import { frameworks } from '../data/frameworks'
+import { generatePrompt } from '../services/ai'
 
 const FrameworkDetail = () => {
   const { id } = useParams<{ id: string }>()
   const framework = frameworks.find((f) => f.id === id)
   const toast = useToast()
   const [formData, setFormData] = useState<Record<string, string>>({})
+  const [generatedPrompt, setGeneratedPrompt] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string>('')
 
   if (!framework) {
     return (
@@ -43,16 +51,34 @@ const FrameworkDetail = () => {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the form data to an API
-    toast({
-      title: 'Form submitted',
-      description: 'Your prompt has been generated successfully!',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    })
+    setIsLoading(true)
+    setError('')
+    setGeneratedPrompt('')
+
+    try {
+      const prompt = await generatePrompt({ framework, formData })
+      setGeneratedPrompt(prompt)
+      toast({
+        title: 'Prompt generated',
+        description: 'Your prompt has been generated successfully!',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to generate prompt')
+      toast({
+        title: 'Error',
+        description: 'Failed to generate prompt. Please try again.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -93,12 +119,48 @@ const FrameworkDetail = () => {
                 )}
               </FormControl>
             ))}
-            <Button type="submit" colorScheme="blue" size="lg">
+            <Button 
+              type="submit" 
+              colorScheme="blue" 
+              size="lg"
+              isLoading={isLoading}
+              loadingText="Generating..."
+            >
               Generate Prompt
             </Button>
           </VStack>
         </form>
       </Box>
+
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>Error!</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {generatedPrompt && (
+        <Box bg="white" p={6} rounded="lg" boxShadow="md">
+          <Heading size="md" mb={4}>Generated Prompt</Heading>
+          <Text whiteSpace="pre-wrap">{generatedPrompt}</Text>
+          <Button
+            mt={4}
+            onClick={() => {
+              navigator.clipboard.writeText(generatedPrompt)
+              toast({
+                title: 'Copied!',
+                description: 'Prompt copied to clipboard',
+                status: 'success',
+                duration: 2000,
+                isClosable: true,
+              })
+            }}
+          >
+            Copy to Clipboard
+          </Button>
+        </Box>
+      )}
 
       <Box>
         <Heading size="md" mb={4}>Components</Heading>
