@@ -1,4 +1,3 @@
-import React from 'react'
 import { SimpleGrid, Box, Heading, Text, VStack, Link as ChakraLink, Badge, HStack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { frameworks } from '../data/frameworks'
