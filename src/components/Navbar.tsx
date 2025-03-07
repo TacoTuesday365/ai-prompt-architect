@@ -6,7 +6,7 @@ const Navbar = () => {
     <Box bg="white" boxShadow="sm" px={4}>
       <Flex maxW="1200px" mx="auto" h={16} alignItems="center" justifyContent="space-between">
         <ChakraLink as={RouterLink} to="/">
-          <Heading size="md" color="blue.600">AI Prompting Guide</Heading>
+          <Heading size="md" color="blue.600">Prompt Archi | AI Prompt Architect</Heading>
         </ChakraLink>
       </Flex>
     </Box>
