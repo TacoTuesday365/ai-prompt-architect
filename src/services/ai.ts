@@ -7,10 +7,15 @@ interface GeneratePromptParams {
 }
 
 export async function generatePrompt({ framework, formData }: GeneratePromptParams) {
-  const apiKey = import.meta.env.GOOGLE_API_KEY
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
 
   if (!apiKey) {
-    console.error('API Key not found in environment:', import.meta.env)
+    console.error('API Key not found in environment. Available env vars:', {
+      keys: Object.keys(import.meta.env),
+      mode: import.meta.env.MODE,
+      isDev: import.meta.env.DEV,
+      isProd: import.meta.env.PROD
+    })
     throw new Error('Google API key is not configured')
   }
 
@@ -47,7 +52,11 @@ The prompt should be clear, specific, and designed to get the best possible resp
       error,
       framework: framework.name,
       apiKeyExists: !!apiKey,
-      environmentVars: import.meta.env
+      environmentVars: {
+        mode: import.meta.env.MODE,
+        isDev: import.meta.env.DEV,
+        isProd: import.meta.env.PROD
+      }
     })
     
     if (error instanceof Error) {
