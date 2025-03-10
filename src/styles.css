@@ -1,11 +1,11 @@
 :root {
   /* Light theme variables */
-  --light-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --light-bg: #ffffff;
   --light-text-primary: #2D3748;
   --light-text-secondary: #4A5568;
-  --light-card-bg: rgba(255, 255, 255, 0.9);
-  --light-card-border: rgba(255, 255, 255, 0.2);
-  --light-button-bg: rgba(255, 255, 255, 0.2);
+  --light-card-bg: #ffffff;
+  --light-card-border: #E2E8F0;
+  --light-button-bg: #EDF2F7;
   --light-accent-color: #4A90E2;
 
   /* Dark theme variables */
@@ -134,7 +134,7 @@ body.dark-theme {
   border: 1px solid var(--light-card-border);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
@@ -197,6 +197,7 @@ body.dark-theme {
 .glass-card:hover,
 .card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .glass-button:hover,
@@ -208,4 +209,17 @@ body.dark-theme {
 .glass-input:focus {
   border-color: var(--dark-accent-color);
   box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.1);
+}
+
+.nav-light {
+  background: var(--light-bg);
+  border-bottom: 1px solid var(--light-card-border);
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.dark-theme .app-container {
+  background: var(--dark-bg);
 } 
