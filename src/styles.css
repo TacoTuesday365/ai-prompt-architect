@@ -1,34 +1,153 @@
-:root {
-  /* Light theme variables */
-  --light-bg: #ffffff;
-  --light-text-primary: #2D3748;
-  --light-text-secondary: #4A5568;
-  --light-card-bg: #ffffff;
-  --light-card-border: #E2E8F0;
-  --light-button-bg: #EDF2F7;
-  --light-accent-color: #4A90E2;
-
-  /* Dark theme variables */
-  --dark-bg: linear-gradient(135deg, #1a1f29 0%, #2a3142 100%);
-  --dark-text-primary: rgba(255, 255, 255, 0.87);
-  --dark-text-secondary: rgba(255, 255, 255, 0.6);
-  --dark-glass-bg: rgba(17, 25, 40, 0.75);
-  --dark-glass-border: rgba(255, 255, 255, 0.125);
-  --dark-accent-color: #64ffda;
-}
-
+/* Base styles */
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--light-bg);
-  color: var(--light-text-primary);
   font-family: system-ui, -apple-system, sans-serif;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #2D3748;
+}
+
+/* Light theme (default) */
+.app-container {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.nav-light {
+  background: #ffffff;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
+.button {
+  background: #EDF2F7;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  color: #2D3748;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Dark theme */
 body.dark-theme {
-  background: var(--dark-bg);
-  color: var(--dark-text-primary);
+  background: linear-gradient(135deg, #1a1f29 0%, #2a3142 100%);
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.dark-theme .app-container {
+  background: linear-gradient(135deg, #1a1f29 0%, #2a3142 100%);
+  background-attachment: fixed;
+}
+
+.dark-theme .glass-nav {
+  background: rgba(17, 25, 40, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.125);
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.dark-theme .glass-card {
+  background: rgba(17, 25, 40, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  transition: transform 0.3s ease;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.dark-theme .glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  border-radius: 6px;
+  padding: 8px 16px;
+  color: rgba(255, 255, 255, 0.87);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dark-theme .glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.87);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.button:hover {
+  background: #E2E8F0;
+  transform: translateY(-1px);
+}
+
+.dark-theme .glass-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .glass-container {
