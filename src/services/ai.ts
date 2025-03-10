@@ -25,10 +25,17 @@ export async function generatePrompt({ framework, formData }: GeneratePromptPara
   console.log('Initializing with framework:', framework.name)
   
   try {
-    // Initialize the Google AI model
+    // Initialize the Google AI model with explicit configuration
     const genAI = new GoogleGenerativeAI(apiKey)
-    // Try the standard model name first
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" })
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-pro",
+      generationConfig: {
+        temperature: 0.7,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 1024,
+      },
+    })
 
     const prompt = `You are an AI prompt engineering expert.
 Your task is to create an effective prompt using the ${framework.name}.
