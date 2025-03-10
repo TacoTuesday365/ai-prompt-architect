@@ -4,6 +4,8 @@ export interface Framework {
   description: string;
   components: string[];
   useCases: string[];
+  prompt?: string;
+  examples?: string[];
 }
 
 export const frameworks: Framework[] = [
