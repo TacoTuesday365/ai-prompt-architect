@@ -1,17 +1,34 @@
 :root {
-  --glass-bg: rgba(17, 25, 40, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.125);
-  --text-primary: rgba(255, 255, 255, 0.87);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --accent-color: #64ffda;
+  /* Light theme variables */
+  --light-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --light-text-primary: #2D3748;
+  --light-text-secondary: #4A5568;
+  --light-card-bg: rgba(255, 255, 255, 0.9);
+  --light-card-border: rgba(255, 255, 255, 0.2);
+  --light-button-bg: rgba(255, 255, 255, 0.2);
+  --light-accent-color: #4A90E2;
+
+  /* Dark theme variables */
+  --dark-bg: linear-gradient(135deg, #1a1f29 0%, #2a3142 100%);
+  --dark-text-primary: rgba(255, 255, 255, 0.87);
+  --dark-text-secondary: rgba(255, 255, 255, 0.6);
+  --dark-glass-bg: rgba(17, 25, 40, 0.75);
+  --dark-glass-border: rgba(255, 255, 255, 0.125);
+  --dark-accent-color: #64ffda;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1f29 0%, #2a3142 100%);
-  color: var(--text-primary);
+  background: var(--light-bg);
+  color: var(--light-text-primary);
   font-family: system-ui, -apple-system, sans-serif;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme {
+  background: var(--dark-bg);
+  color: var(--dark-text-primary);
 }
 
 .glass-container {
@@ -75,10 +92,10 @@ body {
 
 /* Navigation styles */
 .glass-nav {
-  background: var(--glass-bg);
+  background: var(--dark-glass-bg);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--dark-glass-border);
   padding: 16px 24px;
   position: sticky;
   top: 0;
@@ -109,4 +126,86 @@ body {
   background-attachment: fixed;
   position: relative;
   overflow: hidden;
+}
+
+/* Light theme styles */
+.card {
+  background: var(--light-card-bg);
+  border: 1px solid var(--light-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.button {
+  background: var(--light-button-bg);
+  border: 1px solid var(--light-card-border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  color: var(--light-text-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Dark theme styles */
+.dark-theme .glass-container {
+  background: var(--dark-glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--dark-glass-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.dark-theme .glass-card {
+  background: var(--dark-glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--dark-glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  transition: transform 0.3s ease;
+}
+
+.dark-theme .glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--dark-glass-border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  color: var(--dark-text-primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dark-theme .glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--dark-glass-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--dark-text-primary);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.glass-card:hover,
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.glass-button:hover,
+.button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.glass-input:focus {
+  border-color: var(--dark-accent-color);
+  box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.1);
 } 
