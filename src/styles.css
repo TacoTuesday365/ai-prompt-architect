@@ -22,8 +22,17 @@ body {
 .card {
   padding: 20px;
   margin-bottom: 20px;
-  border: 1px solid #eee;
+  border: 2px solid #ddd;
   border-radius: 8px;
+  background: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  border-color: #0066cc;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Button */
