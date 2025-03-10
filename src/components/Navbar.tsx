@@ -3,10 +3,10 @@ import { Link as RouterLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <Box bg="white" boxShadow="sm" px={4}>
-      <Flex maxW="1200px" mx="auto" h={16} alignItems="center" justifyContent="space-between">
-        <ChakraLink as={RouterLink} to="/">
-          <Heading size="md" color="blue.600">Prompt Archi | AI Prompt Architect</Heading>
+    <Box className="glass-nav">
+      <Flex maxW="1200px" mx="auto" h={16} alignItems="center" justifyContent="space-between" px={4}>
+        <ChakraLink as={RouterLink} to="/" _hover={{ textDecoration: 'none' }}>
+          <Heading size="md" color="var(--text-primary)">AI Prompting Guide</Heading>
         </ChakraLink>
       </Flex>
     </Box>

@@ -4,10 +4,10 @@ import { frameworks } from '../data/frameworks'
 
 const Home = () => {
   return (
-    <VStack spacing={8} align="stretch">
-      <Box>
+    <VStack spacing={8} align="stretch" className="glass-container">
+      <Box textAlign="center" color="var(--text-primary)">
         <Heading size="xl" mb={4}>AI Prompting Frameworks</Heading>
-        <Text fontSize="lg" color="gray.600">
+        <Text fontSize="lg" opacity={0.9}>
           Discover and learn about different AI prompting frameworks to improve your interactions with AI models.
         </Text>
       </Box>
@@ -21,19 +21,25 @@ const Home = () => {
             _hover={{ textDecoration: 'none' }}
           >
             <Box
+              className="glass-card"
               p={6}
-              bg="white"
-              rounded="lg"
-              boxShadow="md"
-              transition="all 0.2s"
-              _hover={{ transform: 'translateY(-4px)', boxShadow: 'lg' }}
+              transition="all 0.3s"
+              _hover={{
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+              }}
             >
               <VStack align="stretch" spacing={4}>
-                <Heading size="md">{framework.name}</Heading>
-                <Text color="gray.600">{framework.description}</Text>
+                <Heading size="md" color="var(--text-primary)">{framework.name}</Heading>
+                <Text color="var(--text-secondary)">{framework.description}</Text>
                 <HStack spacing={2} flexWrap="wrap">
                   {framework.useCases.map((useCase) => (
-                    <Badge key={useCase} colorScheme="blue">
+                    <Badge
+                      key={useCase}
+                      className="glass-button"
+                      px={3}
+                      py={1}
+                    >
                       {useCase}
                     </Badge>
                   ))}
