@@ -2,13 +2,15 @@ import { ChakraProvider, Box } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
+import Contact from './pages/Contact'
 import FrameworkDetail from './pages/FrameworkDetail'
 import { ThemeProvider } from './context/ThemeContext'
 import { ThemeToggle } from './components/ThemeToggle'
+import theme from './theme'
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <ThemeProvider>
         <Router>
           <Box className="app-container">
@@ -48,6 +50,7 @@ function App() {
             >
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/framework/:id" element={<FrameworkDetail />} />
               </Routes>
             </Box>

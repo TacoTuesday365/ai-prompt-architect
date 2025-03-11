@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Link as ChakraLink } from '@chakra-ui/react'
+import { Box, Flex, Heading, Link as ChakraLink, HStack, Button } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 
@@ -13,6 +13,26 @@ const Navbar = () => {
             AI Prompting Guide
           </Heading>
         </ChakraLink>
+
+        <HStack spacing={4}>
+          <ChakraLink
+            as={RouterLink}
+            to="/"
+            color={theme === 'dark' ? 'var(--dark-text-primary)' : 'var(--light-text-primary)'}
+            _hover={{ textDecoration: 'none', opacity: 0.8 }}
+          >
+            Home
+          </ChakraLink>
+          <Button
+            as={RouterLink}
+            to="/contact"
+            variant="solid"
+            colorScheme="blue"
+            size="sm"
+          >
+            Contact Us
+          </Button>
+        </HStack>
       </Flex>
     </Box>
   )
