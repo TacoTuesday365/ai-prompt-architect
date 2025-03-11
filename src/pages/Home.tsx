@@ -5,9 +5,9 @@ import { frameworks } from '../data/frameworks'
 const Home = () => {
   return (
     <VStack spacing={8} align="stretch">
-      <Box textAlign="center" color="white">
-        <Heading size="xl" mb={4}>AI Prompting Frameworks</Heading>
-        <Text fontSize="lg" opacity={0.9}>
+      <Box textAlign="center">
+        <Heading size="xl" mb={4} color="gray.800">AI Prompting Frameworks</Heading>
+        <Text fontSize="lg" color="gray.600">
           Discover and learn about different AI prompting frameworks to improve your interactions with AI models.
         </Text>
       </Box>
@@ -22,26 +22,23 @@ const Home = () => {
           >
             <Box
               p={6}
-              bg="rgba(255, 255, 255, 0.1)"
-              backdropFilter="blur(10px)"
+              bg="white"
               borderRadius="xl"
-              border="1px solid rgba(255, 255, 255, 0.1)"
+              boxShadow="sm"
               transition="all 0.3s"
               _hover={{
                 transform: 'translateY(-4px)',
-                bg: 'rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                boxShadow: 'md'
               }}
             >
               <VStack align="stretch" spacing={4}>
-                <Heading size="md" color="white">{framework.name}</Heading>
-                <Text color="whiteAlpha.900">{framework.description}</Text>
+                <Heading size="md" color="gray.800">{framework.name}</Heading>
+                <Text color="gray.600">{framework.description}</Text>
                 <HStack spacing={2} flexWrap="wrap">
                   {framework.useCases.map((useCase) => (
                     <Badge
                       key={useCase}
-                      bg="rgba(255, 255, 255, 0.2)"
-                      color="white"
+                      colorScheme="brand"
                       borderRadius="full"
                       px={3}
                       py={1}
