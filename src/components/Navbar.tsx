@@ -1,7 +1,7 @@
-import { VStack, Heading, Link as ChakraLink, Button, Box, Icon, Text, HStack } from '@chakra-ui/react'
+import { VStack, Heading, Link as ChakraLink, Box, Icon, Text, HStack } from '@chakra-ui/react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
-import { FiHome, FiMail, FiBook } from 'react-icons/fi'
+import { FiInfo } from 'react-icons/fi'
 
 const NavItem = ({ to, icon, children, isActive }: { to: string; icon: any; children: React.ReactNode; isActive: boolean }) => (
   <ChakraLink
@@ -50,40 +50,13 @@ const Navbar = () => {
 
         <VStack spacing={2} align="stretch">
           <NavItem
-            to="/"
-            icon={FiHome}
-            isActive={location.pathname === '/'}
+            to="/about"
+            icon={FiInfo}
+            isActive={location.pathname === '/about'}
           >
-            Home
-          </NavItem>
-          <NavItem
-            to="/frameworks"
-            icon={FiBook}
-            isActive={location.pathname.startsWith('/framework')}
-          >
-            Frameworks
-          </NavItem>
-          <NavItem
-            to="/contact"
-            icon={FiMail}
-            isActive={location.pathname === '/contact'}
-          >
-            Contact
+            About
           </NavItem>
         </VStack>
-      </Box>
-
-      <Box mt="auto">
-        <Button
-          as={RouterLink}
-          to="/contact"
-          variant="outline"
-          size="md"
-          width="100%"
-          colorScheme={theme === 'dark' ? 'whiteAlpha' : 'blackAlpha'}
-        >
-          Get in Touch
-        </Button>
       </Box>
     </VStack>
   )

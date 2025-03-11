@@ -2,8 +2,7 @@ import { ChakraProvider, Box, Grid, GridItem } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import Contact from './pages/Contact'
-import FrameworkDetail from './pages/FrameworkDetail'
+import About from './pages/About'
 import { ThemeProvider } from './context/ThemeContext'
 import { ThemeToggle } from './components/ThemeToggle'
 import theme from './theme'
@@ -50,8 +49,7 @@ function App() {
               <Box maxW="1000px" mx="auto">
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/framework/:id" element={<FrameworkDetail />} />
+                  <Route path="/about" element={<About />} />
                 </Routes>
               </Box>
             </GridItem>
