@@ -9,40 +9,24 @@ import {
   HStack,
   Input,
   Button,
-  Wrap,
-  WrapItem,
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { frameworks } from '../data/frameworks'
-import { useState } from 'react'
-
-const FrameworkBubble = ({ name, isSelected, onClick }: { name: string; isSelected: boolean; onClick: () => void }) => (
-  <Button
-    size="sm"
-    variant={isSelected ? 'solid' : 'outline'}
-    colorScheme={isSelected ? 'blue' : 'gray'}
-    borderRadius="full"
-    onClick={onClick}
-    _hover={{ transform: 'scale(1.05)' }}
-    transition="all 0.2s"
-  >
-    {name}
-  </Button>
-)
 
 const Home = () => {
-  const [selectedFramework, setSelectedFramework] = useState<string | null>(null)
-
   return (
     <VStack spacing={8} align="stretch">
-      {/* Prompt Input Section */}
+      {/* Prompt Input Section with CIDI Framework */}
       <Box
         className="glass-container"
         p={6}
         borderRadius="xl"
       >
         <VStack spacing={4} align="stretch">
-          <Heading size="md" color="var(--text-primary)">Enter your prompt</Heading>
+          <Heading size="md" color="var(--text-primary)">Enter your prompt using CIDI Framework</Heading>
+          <Text fontSize="sm" color="var(--text-secondary)">
+            Context, Instructions, Details, and Input - A comprehensive framework for clear AI communication
+          </Text>
           <Input
             placeholder="What would you like to know about AI prompting?"
             size="lg"
@@ -50,24 +34,6 @@ const Home = () => {
             _hover={{ bg: 'whiteAlpha.100' }}
             _focus={{ bg: 'whiteAlpha.100', borderColor: 'blue.400' }}
           />
-          
-          {/* Framework Bubbles */}
-          <Box>
-            <Text mb={2} fontSize="sm" color="var(--text-secondary)">
-              Select a framework:
-            </Text>
-            <Wrap spacing={2}>
-              {frameworks.map((framework) => (
-                <WrapItem key={framework.id}>
-                  <FrameworkBubble
-                    name={framework.name}
-                    isSelected={selectedFramework === framework.id}
-                    onClick={() => setSelectedFramework(framework.id)}
-                  />
-                </WrapItem>
-              ))}
-            </Wrap>
-          </Box>
 
           <Button colorScheme="blue" size="lg">
             Generate

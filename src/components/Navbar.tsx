@@ -1,4 +1,4 @@
-import { VStack, Heading, Link as ChakraLink, Box, Icon, Text, HStack } from '@chakra-ui/react'
+import { VStack, Heading, Link as ChakraLink, Button, Box, Icon, Text, HStack } from '@chakra-ui/react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { FiInfo } from 'react-icons/fi'
@@ -57,6 +57,19 @@ const Navbar = () => {
             About
           </NavItem>
         </VStack>
+      </Box>
+
+      <Box mt="auto">
+        <Button
+          as={RouterLink}
+          to="/about"
+          variant="outline"
+          size="md"
+          width="100%"
+          colorScheme={theme === 'dark' ? 'whiteAlpha' : 'blackAlpha'}
+        >
+          Get in Touch
+        </Button>
       </Box>
     </VStack>
   )
