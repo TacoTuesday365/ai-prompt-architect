@@ -1,22 +1,77 @@
-import { Box, Flex, Heading, Link as ChakraLink } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
+import { VStack, Heading, Link as ChakraLink, Button, Box, Icon, Text, HStack } from '@chakra-ui/react'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext'
+import { FiInfo } from 'react-icons/fi'
+
+const NavItem = ({ to, icon, children, isActive }: { to: string; icon: any; children: React.ReactNode; isActive: boolean }) => (
+  <ChakraLink
+    as={RouterLink}
+    to={to}
+    w="100%"
+    _hover={{ textDecoration: 'none' }}
+  >
+    <HStack
+      px={4}
+      py={3}
+      spacing={3}
+      bg={isActive ? 'whiteAlpha.200' : 'transparent'}
+      _hover={{ bg: 'whiteAlpha.100' }}
+      borderRadius="md"
+      transition="all 0.2s"
+    >
+      <Icon as={icon} boxSize={5} />
+      <Text>{children}</Text>
+    </HStack>
+  </ChakraLink>
+)
 
 const Navbar = () => {
+  const { theme } = useTheme()
+  const location = useLocation()
+
   return (
-    <Box
-      bg="rgba(255, 255, 255, 0.1)"
-      backdropFilter="blur(10px)"
-      borderBottom="1px solid rgba(255, 255, 255, 0.1)"
-      position="sticky"
-      top={0}
-      zIndex={10}
+    <VStack
+      h="100%"
+      py={8}
+      px={4}
+      spacing={8}
+      align="stretch"
     >
-      <Flex maxW="1200px" mx="auto" h={16} alignItems="center" justifyContent="space-between" px={4}>
+      <Box>
         <ChakraLink as={RouterLink} to="/" _hover={{ textDecoration: 'none' }}>
-          <Heading size="md" color="white">AI Prompting Guide</Heading>
+          <Heading
+            size="md"
+            mb={8}
+            color={theme === 'dark' ? 'var(--dark-text-primary)' : 'var(--light-text-primary)'}
+          >
+            AI Prompting Guide
+          </Heading>
         </ChakraLink>
-      </Flex>
-    </Box>
+
+        <VStack spacing={2} align="stretch">
+          <NavItem
+            to="/about"
+            icon={FiInfo}
+            isActive={location.pathname === '/about'}
+          >
+            About
+          </NavItem>
+        </VStack>
+      </Box>
+
+      <Box mt="auto">
+        <Button
+          as={RouterLink}
+          to="/about"
+          variant="outline"
+          size="md"
+          width="100%"
+          colorScheme={theme === 'dark' ? 'whiteAlpha' : 'blackAlpha'}
+        >
+          Get in Touch
+        </Button>
+      </Box>
+    </VStack>
   )
 }
 
