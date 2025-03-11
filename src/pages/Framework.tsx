@@ -48,37 +48,39 @@ const Framework = () => {
             </HStack>
           </Box>
 
-          <Box>
-            <Heading size="md" color="white" mb={3}>Prompt Template</Heading>
-            <Box
-              p={4}
-              bg="rgba(0, 0, 0, 0.2)"
-              borderRadius="lg"
-              position="relative"
-            >
-              <Text color="whiteAlpha.900" whiteSpace="pre-wrap" mb={4}>
-                {framework.prompt}
-              </Text>
-              <Button
-                position="absolute"
-                top={2}
-                right={2}
-                size="sm"
-                onClick={onCopy}
-                bg="rgba(255, 255, 255, 0.1)"
-                color="white"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+          {framework.prompt && (
+            <Box>
+              <Heading size="md" color="white" mb={3}>Prompt Template</Heading>
+              <Box
+                p={4}
+                bg="rgba(0, 0, 0, 0.2)"
+                borderRadius="lg"
+                position="relative"
               >
-                {hasCopied ? 'Copied!' : 'Copy'}
-              </Button>
+                <Text color="whiteAlpha.900" whiteSpace="pre-wrap" mb={4}>
+                  {framework.prompt}
+                </Text>
+                <Button
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  size="sm"
+                  onClick={onCopy}
+                  bg="rgba(255, 255, 255, 0.1)"
+                  color="white"
+                  _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+                >
+                  {hasCopied ? 'Copied!' : 'Copy'}
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          )}
 
-          {framework.examples && (
+          {framework.examples && framework.examples.length > 0 && (
             <Box>
               <Heading size="md" color="white" mb={3}>Examples</Heading>
               <VStack spacing={4} align="stretch">
-                {framework.examples.map((example, index) => (
+                {framework.examples.map((example: string, index: number) => (
                   <Box
                     key={index}
                     p={4}
