@@ -1,44 +1,39 @@
 import { Box, VStack, Heading, Text, Badge, HStack, Button, useClipboard } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom'
-import { frameworks } from '../data/frameworks'
+import { useParams, Link as RouterLink } from 'react-router-dom'
+import { frameworks, Framework as FrameworkType } from '../data/frameworks'
 
 const Framework = () => {
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
   const framework = frameworks.find(f => f.id === id)
   const { hasCopied, onCopy } = useClipboard(framework?.prompt || '')
 
   if (!framework) {
     return (
-      <Box textAlign="center" color="white">
-        <Heading>Framework not found</Heading>
+      <Box textAlign="center" className="glass-container">
+        <Heading color="var(--text-primary)">Framework not found</Heading>
+        <Button as={RouterLink} to="/" mt={4} className="glass-button">
+          Return to Home
+        </Button>
       </Box>
     )
   }
 
   return (
     <VStack spacing={8} align="stretch">
-      <Box
-        p={8}
-        bg="rgba(255, 255, 255, 0.1)"
-        backdropFilter="blur(10px)"
-        borderRadius="xl"
-        border="1px solid rgba(255, 255, 255, 0.1)"
-      >
+      <Box className="glass-card">
         <VStack align="stretch" spacing={6}>
           <Box>
-            <Heading size="xl" color="white" mb={4}>{framework.name}</Heading>
-            <Text fontSize="lg" color="whiteAlpha.900">{framework.description}</Text>
+            <Heading size="xl" color="var(--text-primary)" mb={4}>{framework.name}</Heading>
+            <Text fontSize="lg" color="var(--text-secondary)">{framework.description}</Text>
           </Box>
 
           <Box>
-            <Heading size="md" color="white" mb={3}>Use Cases</Heading>
+            <Heading size="md" color="var(--text-primary)" mb={3}>Use Cases</Heading>
             <HStack spacing={2} flexWrap="wrap">
               {framework.useCases.map((useCase) => (
                 <Badge
                   key={useCase}
-                  bg="rgba(255, 255, 255, 0.2)"
-                  color="white"
-                  borderRadius="full"
+                  className="glass-button"
                   px={3}
                   py={1}
                 >
@@ -49,43 +44,52 @@ const Framework = () => {
           </Box>
 
           <Box>
-            <Heading size="md" color="white" mb={3}>Prompt Template</Heading>
-            <Box
-              p={4}
-              bg="rgba(0, 0, 0, 0.2)"
-              borderRadius="lg"
-              position="relative"
-            >
-              <Text color="whiteAlpha.900" whiteSpace="pre-wrap" mb={4}>
-                {framework.prompt}
-              </Text>
-              <Button
-                position="absolute"
-                top={2}
-                right={2}
-                size="sm"
-                onClick={onCopy}
-                bg="rgba(255, 255, 255, 0.1)"
-                color="white"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
-              >
-                {hasCopied ? 'Copied!' : 'Copy'}
-              </Button>
-            </Box>
+            <Heading size="md" color="var(--text-primary)" mb={3}>Components</Heading>
+            <VStack spacing={2} align="stretch">
+              {framework.components.map((component) => (
+                <Text key={component} color="var(--text-secondary)">
+                  • {component}
+                </Text>
+              ))}
+            </VStack>
           </Box>
 
-          {framework.examples && (
+          {framework.prompt && (
             <Box>
-              <Heading size="md" color="white" mb={3}>Examples</Heading>
+              <Heading size="md" color="var(--text-primary)" mb={3}>Prompt Template</Heading>
+              <Box
+                className="glass-container"
+                p={4}
+                position="relative"
+              >
+                <Text color="var(--text-secondary)" whiteSpace="pre-wrap" mb={4}>
+                  {framework.prompt}
+                </Text>
+                <Button
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  size="sm"
+                  onClick={onCopy}
+                  className="glass-button"
+                >
+                  {hasCopied ? 'Copied!' : 'Copy'}
+                </Button>
+              </Box>
+            </Box>
+          )}
+
+          {framework.examples && framework.examples.length > 0 && (
+            <Box>
+              <Heading size="md" color="var(--text-primary)" mb={3}>Examples</Heading>
               <VStack spacing={4} align="stretch">
                 {framework.examples.map((example, index) => (
                   <Box
                     key={index}
+                    className="glass-container"
                     p={4}
-                    bg="rgba(255, 255, 255, 0.05)"
-                    borderRadius="lg"
                   >
-                    <Text color="whiteAlpha.900" whiteSpace="pre-wrap">
+                    <Text color="var(--text-secondary)" whiteSpace="pre-wrap">
                       {example}
                     </Text>
                   </Box>

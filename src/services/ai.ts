@@ -7,19 +7,17 @@ interface GeneratePromptParams {
 }
 
 export async function generatePrompt({ framework, formData }: GeneratePromptParams) {
-  // Try both environment variables
-  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || import.meta.env.GOOGLE_API_KEY
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
 
   if (!apiKey) {
     console.error('API Key not found in environment. Available env vars:', {
       keys: Object.keys(import.meta.env),
       hasViteKey: !!import.meta.env.VITE_GOOGLE_API_KEY,
-      hasGoogleKey: !!import.meta.env.GOOGLE_API_KEY,
       mode: import.meta.env.MODE,
       isDev: import.meta.env.DEV,
       isProd: import.meta.env.PROD
     })
-    throw new Error('Google API key is not configured')
+    throw new Error('Google API key is not configured. Please set VITE_GOOGLE_API_KEY in your environment variables.')
   }
 
   console.log('Initializing with framework:', framework.name)
@@ -27,8 +25,7 @@ export async function generatePrompt({ framework, formData }: GeneratePromptPara
   try {
     // Initialize the Google AI model
     const genAI = new GoogleGenerativeAI(apiKey)
-    // Try the standard model name first
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
 
     const prompt = `You are an AI prompt engineering expert.
 Your task is to create an effective prompt using the ${framework.name}.
@@ -65,7 +62,6 @@ The prompt should be clear, specific, and designed to get the best possible resp
       apiKeyStart: apiKey.substring(0, 4) + '...',
       environmentVars: {
         hasViteKey: !!import.meta.env.VITE_GOOGLE_API_KEY,
-        hasGoogleKey: !!import.meta.env.GOOGLE_API_KEY,
         mode: import.meta.env.MODE,
         isDev: import.meta.env.DEV,
         isProd: import.meta.env.PROD

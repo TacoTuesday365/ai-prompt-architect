@@ -35,9 +35,9 @@ const FrameworkDetail = () => {
 
   if (!framework) {
     return (
-      <Box textAlign="center">
-        <Heading>Framework not found</Heading>
-        <ChakraLink as={RouterLink} to="/" color="blue.500">
+      <Box textAlign="center" className="glass-container">
+        <Heading color="var(--text-primary)">Framework not found</Heading>
+        <ChakraLink as={RouterLink} to="/" color="var(--accent-color)">
           Return to home
         </ChakraLink>
       </Box>
@@ -89,46 +89,47 @@ const FrameworkDetail = () => {
   }
 
   return (
-    <VStack spacing={8} align="stretch">
+    <VStack spacing={8} align="stretch" className="glass-container">
       <Box>
-        <Heading size="xl" mb={4}>{framework.name}</Heading>
-        <Text fontSize="lg" color="gray.600" mb={6}>
+        <Heading size="xl" mb={4} color="var(--text-primary)">{framework.name}</Heading>
+        <Text fontSize="lg" color="var(--text-secondary)" mb={6}>
           {framework.description}
         </Text>
         <HStack spacing={2} mb={6}>
           {framework.useCases.map((useCase) => (
-            <Badge key={useCase} colorScheme="blue">
+            <Badge key={useCase} className="glass-button">
               {useCase}
             </Badge>
           ))}
         </HStack>
       </Box>
 
-      <Box bg="white" p={6} rounded="lg" boxShadow="md">
+      <Box className="glass-card">
         <form onSubmit={handleSubmit}>
           <VStack spacing={6} align="stretch">
             {framework.components.map((component) => (
               <FormControl key={component}>
-                <FormLabel fontWeight="bold">{component}</FormLabel>
+                <FormLabel fontWeight="bold" color="var(--text-primary)">{component}</FormLabel>
                 {component.toLowerCase().includes('description') ? (
                   <Textarea
                     value={formData[component] || ''}
                     onChange={(e) => handleInputChange(component, e.target.value)}
                     placeholder={`Enter your ${component.toLowerCase()}`}
-                    rows={4}
+                    className="glass-input"
                   />
                 ) : (
                   <Input
                     value={formData[component] || ''}
                     onChange={(e) => handleInputChange(component, e.target.value)}
                     placeholder={`Enter your ${component.toLowerCase()}`}
+                    className="glass-input"
                   />
                 )}
               </FormControl>
             ))}
             <Button 
               type="submit" 
-              colorScheme="blue" 
+              className="glass-button"
               size="lg"
               isLoading={isLoading}
               loadingText="Generating..."
@@ -141,7 +142,7 @@ const FrameworkDetail = () => {
       </Box>
 
       {error && (
-        <Alert status="error">
+        <Alert status="error" className="glass-card">
           <AlertIcon />
           <AlertTitle>Error!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
@@ -149,11 +150,12 @@ const FrameworkDetail = () => {
       )}
 
       {generatedPrompt && (
-        <Box bg="white" p={6} rounded="lg" boxShadow="md">
-          <Heading size="md" mb={4}>Generated Prompt</Heading>
-          <Text whiteSpace="pre-wrap">{generatedPrompt}</Text>
+        <Box className="glass-card">
+          <Heading size="md" mb={4} color="var(--text-primary)">Generated Prompt</Heading>
+          <Text whiteSpace="pre-wrap" color="var(--text-secondary)">{generatedPrompt}</Text>
           <Button
             mt={4}
+            className="glass-button"
             onClick={() => {
               navigator.clipboard.writeText(generatedPrompt)
               toast({
@@ -170,11 +172,11 @@ const FrameworkDetail = () => {
         </Box>
       )}
 
-      <Box>
-        <Heading size="md" mb={4}>Components</Heading>
+      <Box className="glass-card">
+        <Heading size="md" mb={4} color="var(--text-primary)">Components</Heading>
         <List spacing={2}>
           {framework.components.map((component) => (
-            <ListItem key={component}>
+            <ListItem key={component} color="var(--text-secondary)">
               • {component}
             </ListItem>
           ))}
