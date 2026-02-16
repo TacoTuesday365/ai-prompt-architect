@@ -1,0 +1,42 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background circle -->
+  <circle cx="32" cy="32" r="32" fill="#0a0e27"/>
+  
+  <!-- Outer hexagon -->
+  <path
+    d="M32 8 L50 18 L50 38 L32 48 L14 38 L14 18 Z"
+    stroke="url(#gradient1)"
+    stroke-width="2"
+    fill="none"
+  />
+  
+  <!-- Inner hexagon -->
+  <path
+    d="M32 14 L44 21 L44 35 L32 42 L20 35 L20 21 Z"
+    stroke="url(#gradient2)"
+    stroke-width="1.5"
+    fill="rgba(100, 255, 218, 0.1)"
+  />
+  
+  <!-- "P" letter in center -->
+  <path
+    d="M28 24 L28 40 M28 24 L36 24 L36 32 L28 32"
+    stroke="#64FFDA"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64FFDA" />
+      <stop offset="50%" stop-color="#00D9FF" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="100%" stop-color="#64FFDA" />
+    </linearGradient>
+  </defs>
+</svg>
