@@ -55,8 +55,8 @@ export const handler: Handler = async (event) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey)
-    // Try gemini-1.5-flash first (more stable quota), fallback to 2.0 if needed
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    // Use gemini-pro which is the stable production model
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" })
 
     const prompt = `You are an AI prompt engineering expert.
 Your task is to create an effective prompt using the ${framework.name}.
