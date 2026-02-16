@@ -118,32 +118,33 @@ export const Login = () => {
       justifyContent="center"
       position="relative"
       overflow="hidden"
+      px={{ base: 4, sm: 6, md: 8 }}
     >
       {/* Animated background elements */}
       <Box
         position="absolute"
-        width="600px"
-        height="600px"
+        width={{ base: '400px', md: '600px' }}
+        height={{ base: '400px', md: '600px' }}
         borderRadius="full"
         background="radial-gradient(circle, rgba(100, 255, 218, 0.15) 0%, rgba(100, 255, 218, 0) 70%)"
-        top="-200px"
-        right="-200px"
+        top={{ base: '-150px', md: '-200px' }}
+        right={{ base: '-150px', md: '-200px' }}
         animation="pulse 4s ease-in-out infinite"
       />
       <Box
         position="absolute"
-        width="500px"
-        height="500px"
+        width={{ base: '350px', md: '500px' }}
+        height={{ base: '350px', md: '500px' }}
         borderRadius="full"
         background="radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, rgba(0, 217, 255, 0) 70%)"
-        bottom="-150px"
-        left="-150px"
+        bottom={{ base: '-100px', md: '-150px' }}
+        left={{ base: '-100px', md: '-150px' }}
         animation="pulse 5s ease-in-out infinite"
       />
 
-      <Container maxW="md" centerContent position="relative" zIndex={1}>
+      <Container maxW={{ base: '100%', sm: 'md' }} centerContent position="relative" zIndex={1}>
         <Box
-          p={10}
+          p={{ base: 6, sm: 8, md: 10 }}
           borderRadius="2xl"
           bg="rgba(15, 20, 35, 0.8)"
           backdropFilter="blur(20px)"
@@ -153,17 +154,17 @@ export const Login = () => {
         >
           <PromptArchiLogo />
           
-          <VStack spacing={6} as="form" onSubmit={handleSubmit}>
+          <VStack spacing={{ base: 4, md: 6 }} as="form" onSubmit={handleSubmit}>
             <FormControl isRequired>
               <FormLabel 
                 color="gray.300" 
-                fontSize="sm" 
+                fontSize={{ base: 'xs', md: 'sm' }}
                 fontWeight="medium"
                 mb={2}
               >
                 Password
               </FormLabel>
-              <InputGroup size="lg">
+              <InputGroup size={{ base: 'md', md: 'lg' }}>
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -172,7 +173,7 @@ export const Login = () => {
                   bg="rgba(15, 20, 35, 0.6)"
                   border="1px solid rgba(100, 255, 218, 0.3)"
                   color="white"
-                  fontSize="md"
+                  fontSize={{ base: 'sm', md: 'md' }}
                   _placeholder={{ color: 'gray.500' }}
                   _hover={{ 
                     bg: 'rgba(15, 20, 35, 0.8)',
@@ -184,15 +185,15 @@ export const Login = () => {
                     boxShadow: '0 0 0 1px #64FFDA'
                   }}
                 />
-                <InputRightElement>
+                <InputRightElement h="100%">
                   <IconButton
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                     icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                     onClick={() => setShowPassword(!showPassword)}
                     variant="ghost"
                     color="gray.400"
+                    size={{ base: 'xs', md: 'sm' }}
                     _hover={{ color: '#64FFDA', bg: 'transparent' }}
-                    size="sm"
                   />
                 </InputRightElement>
               </InputGroup>
@@ -201,10 +202,11 @@ export const Login = () => {
             <Button
               type="submit"
               width="100%"
-              size="lg"
+              size={{ base: 'md', md: 'lg' }}
               bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
               color="gray.900"
               fontWeight="bold"
+              fontSize={{ base: 'sm', md: 'md' }}
               _hover={{
                 bg: 'linear-gradient(135deg, #7CFFE8 0%, #1AE3FF 100%)',
                 transform: 'translateY(-2px)',

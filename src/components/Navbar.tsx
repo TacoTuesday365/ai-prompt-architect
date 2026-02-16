@@ -6,18 +6,26 @@ const Navbar = () => {
 
   return (
     <Box className="glass-nav">
-      <Flex maxW="1200px" mx="auto" h={12} alignItems="center" justifyContent="space-between" px={6}>
+      <Flex 
+        maxW="1200px" 
+        mx="auto" 
+        h={{ base: 10, md: 12 }} 
+        alignItems="center" 
+        justifyContent="space-between" 
+        px={{ base: 3, md: 6 }}
+      >
         <Text 
-          fontSize="sm" 
+          fontSize={{ base: 'xs', md: 'sm' }}
           color="gray.400"
           letterSpacing="wide"
         >
           AI Prompt Engineering
         </Text>
         <Button
-          size="sm"
+          size={{ base: 'xs', md: 'sm' }}
           variant="ghost"
           color="gray.400"
+          fontSize={{ base: 'xs', md: 'sm' }}
           _hover={{ color: '#64FFDA', bg: 'transparent' }}
           onClick={logout}
         >

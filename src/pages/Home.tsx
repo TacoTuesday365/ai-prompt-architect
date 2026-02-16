@@ -74,14 +74,14 @@ const Home = () => {
   }
 
   return (
-    <Box pt={4} pb={8}>
-      <Container maxW="1000px">
-        <VStack spacing={6} align="stretch">
+    <Box pt={{ base: 2, md: 4 }} pb={{ base: 4, md: 8 }} px={{ base: 2, sm: 4 }}>
+      <Container maxW={{ base: '100%', sm: '95%', md: '90%', lg: '1000px' }}>
+        <VStack spacing={{ base: 4, md: 6 }} align="stretch">
           {/* Logo and Title */}
-          <VStack spacing={3} textAlign="center">
+          <VStack spacing={{ base: 2, md: 3 }} textAlign="center">
             <svg
-              width="80"
-              height="80"
+              width="60"
+              height="60"
               viewBox="0 0 80 80"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ const Home = () => {
               </defs>
             </svg>
             <Heading
-              fontSize="4xl"
+              fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
               fontWeight="bold"
               bgGradient="linear(to-r, #64FFDA, #00D9FF)"
               bgClip="text"
@@ -146,10 +146,10 @@ const Home = () => {
               placeholder="Select a prompting framework..."
               value={selectedFrameworkId}
               onChange={handleFrameworkChange}
-              size="lg"
+              size={{ base: 'md', md: 'lg' }}
               border="none"
               color="white"
-              fontSize="md"
+              fontSize={{ base: 'sm', md: 'md' }}
               _focus={{ boxShadow: 'none' }}
               _placeholder={{ color: 'gray.400' }}
               cursor="pointer"
@@ -175,34 +175,38 @@ const Home = () => {
               <Text 
                 textAlign="center" 
                 color="gray.400" 
-                fontSize="sm"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                px={{ base: 2, md: 0 }}
               >
                 {selectedFramework.description}
               </Text>
             </Fade>
           )}
 
-          {/* Dynamic Form and Generated Prompt Side by Side */}
+          {/* Dynamic Form and Generated Prompt */}
           {selectedFramework && (
             <ScaleFade in={!!selectedFramework} initialScale={0.95}>
-              <SimpleGrid columns={{ base: 1, lg: generatedPrompt ? 2 : 1 }} spacing={6}>
+              <SimpleGrid 
+                columns={{ base: 1, lg: generatedPrompt ? 2 : 1 }} 
+                spacing={{ base: 4, md: 6 }}
+              >
                 {/* Form */}
                 <Box
                   as="form"
                   onSubmit={handleSubmit}
-                  p={6}
-                  borderRadius="xl"
+                  p={{ base: 4, md: 6 }}
+                  borderRadius={{ base: 'lg', md: 'xl' }}
                   bg="rgba(15, 20, 35, 0.8)"
                   backdropFilter="blur(20px)"
                   border="1px solid rgba(100, 255, 218, 0.2)"
                   boxShadow="0 10px 40px rgba(0, 0, 0, 0.3)"
                 >
-                  <VStack spacing={4} align="stretch">
+                  <VStack spacing={{ base: 3, md: 4 }} align="stretch">
                     {selectedFramework.components.map((component) => (
                       <FormControl key={component} size="sm">
                         <FormLabel 
                           color="gray.300" 
-                          fontSize="xs" 
+                          fontSize={{ base: '2xs', sm: 'xs' }}
                           fontWeight="medium"
                           mb={1}
                         >
@@ -219,7 +223,7 @@ const Home = () => {
                             border="1px solid rgba(100, 255, 218, 0.3)"
                             color="white"
                             rows={2}
-                            fontSize="sm"
+                            fontSize={{ base: 'xs', md: 'sm' }}
                             _placeholder={{ color: 'gray.500' }}
                             _hover={{ 
                               bg: 'rgba(15, 20, 35, 0.8)',
@@ -239,8 +243,8 @@ const Home = () => {
                             bg="rgba(15, 20, 35, 0.6)"
                             border="1px solid rgba(100, 255, 218, 0.3)"
                             color="white"
-                            size="md"
-                            fontSize="sm"
+                            size={{ base: 'sm', md: 'md' }}
+                            fontSize={{ base: 'xs', md: 'sm' }}
                             _placeholder={{ color: 'gray.500' }}
                             _hover={{ 
                               bg: 'rgba(15, 20, 35, 0.8)',
@@ -258,10 +262,11 @@ const Home = () => {
 
                     <Button
                       type="submit"
-                      size="md"
+                      size={{ base: 'sm', md: 'md' }}
                       bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
                       color="gray.900"
                       fontWeight="bold"
+                      fontSize={{ base: 'sm', md: 'md' }}
                       isLoading={isLoading}
                       loadingText="Generating..."
                       _hover={{
@@ -281,23 +286,23 @@ const Home = () => {
                 {/* Generated Prompt */}
                 {generatedPrompt && (
                   <Box
-                    p={6}
-                    borderRadius="xl"
+                    p={{ base: 4, md: 6 }}
+                    borderRadius={{ base: 'lg', md: 'xl' }}
                     bg="rgba(15, 20, 35, 0.8)"
                     backdropFilter="blur(20px)"
                     border="1px solid rgba(100, 255, 218, 0.2)"
                     boxShadow="0 10px 40px rgba(0, 0, 0, 0.3)"
                   >
-                    <VStack spacing={3} align="stretch">
-                      <Heading size="sm" color="white">
+                    <VStack spacing={{ base: 2, md: 3 }} align="stretch">
+                      <Heading size={{ base: 'xs', md: 'sm' }} color="white">
                         Generated Prompt
                       </Heading>
                       <Text 
                         whiteSpace="pre-wrap" 
                         color="gray.300"
-                        fontSize="sm"
+                        fontSize={{ base: 'xs', md: 'sm' }}
                         lineHeight="tall"
-                        maxH="400px"
+                        maxH={{ base: '300px', md: '400px' }}
                         overflowY="auto"
                         css={{
                           '&::-webkit-scrollbar': {
@@ -319,10 +324,11 @@ const Home = () => {
                         {generatedPrompt}
                       </Text>
                       <Button
-                        size="sm"
+                        size={{ base: 'xs', md: 'sm' }}
                         bg="rgba(100, 255, 218, 0.1)"
                         color="#64FFDA"
                         border="1px solid rgba(100, 255, 218, 0.3)"
+                        fontSize={{ base: 'xs', md: 'sm' }}
                         _hover={{
                           bg: 'rgba(100, 255, 218, 0.2)',
                           borderColor: '#64FFDA'
