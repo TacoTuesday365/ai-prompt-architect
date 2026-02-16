@@ -2,25 +2,25 @@
   <!-- Dark background -->
   <rect width="32" height="32" rx="6" fill="#0a0e27"/>
   
-  <!-- Outer hexagon -->
+  <!-- Outer hexagon - centered -->
   <path
-    d="M16 4 L25 9 L25 19 L16 24 L7 19 L7 9 Z"
+    d="M16 5 L24 10 L24 20 L16 25 L8 20 L8 10 Z"
     stroke="url(#gradient1)"
     stroke-width="1.2"
     fill="none"
   />
   
-  <!-- Inner hexagon -->
+  <!-- Inner hexagon - centered -->
   <path
-    d="M16 7 L22 10.5 L22 17.5 L16 21 L10 17.5 L10 10.5 Z"
+    d="M16 8 L21 11 L21 19 L16 22 L11 19 L11 11 Z"
     stroke="url(#gradient2)"
     stroke-width="1"
     fill="rgba(100, 255, 218, 0.1)"
   />
   
-  <!-- "P" letter -->
+  <!-- "P" letter - centered -->
   <path
-    d="M14 12 L14 20 M14 12 L18 12 L18 16 L14 16"
+    d="M14 13 L14 21 M14 13 L18 13 L18 17 L14 17"
     stroke="#64FFDA"
     stroke-width="1.8"
     stroke-linecap="round"
