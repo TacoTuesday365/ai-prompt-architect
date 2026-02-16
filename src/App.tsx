@@ -2,7 +2,6 @@ import { ChakraProvider, Box } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import FrameworkDetail from './pages/FrameworkDetail'
 import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -46,17 +45,9 @@ function App() {
               <Box className="glass-nav">
                 <Navbar />
               </Box>
-              <Box 
-                maxW="1200px" 
-                mx="auto" 
-                px={4} 
-                py={8}
-                position="relative"
-                zIndex={1}
-              >
+              <Box position="relative" zIndex={1}>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/framework/:id" element={<FrameworkDetail />} />
                 </Routes>
               </Box>
             </ProtectedRoute>

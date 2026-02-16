@@ -1,69 +1,332 @@
-import { SimpleGrid, Box, Heading, Text, VStack, Link as ChakraLink, Badge, HStack } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
+import { useState } from 'react'
+import {
+  Box,
+  VStack,
+  Heading,
+  Text,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Button,
+  Select,
+  useToast,
+  Container,
+  Fade,
+  ScaleFade,
+} from '@chakra-ui/react'
 import { frameworks } from '../data/frameworks'
+import { generatePrompt } from '../services/ai'
 
 const Home = () => {
-  return (
-    <VStack spacing={8} align="stretch">
-      <Box textAlign="center">
-        <Heading 
-          size="xl" 
-          mb={4}
-          bgGradient="linear(to-r, #64FFDA, #00D9FF)"
-          bgClip="text"
-        >
-          AI Prompting Frameworks
-        </Heading>
-        <Text fontSize="lg" color="gray.300">
-          Discover and learn about different AI prompting frameworks to improve your interactions with AI models.
-        </Text>
-      </Box>
+  const [selectedFrameworkId, setSelectedFrameworkId] = useState<string>('')
+  const [formData, setFormData] = useState<Record<string, string>>({})
+  const [generatedPrompt, setGeneratedPrompt] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
+  const toast = useToast()
 
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-        {frameworks.map((framework) => (
-          <ChakraLink
-            key={framework.id}
-            as={RouterLink}
-            to={`/framework/${framework.id}`}
-            _hover={{ textDecoration: 'none' }}
+  const selectedFramework = frameworks.find(f => f.id === selectedFrameworkId)
+
+  const handleFrameworkChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFrameworkId(e.target.value)
+    setFormData({})
+    setGeneratedPrompt('')
+  }
+
+  const handleInputChange = (component: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [component]: value,
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!selectedFramework) return
+
+    setIsLoading(true)
+    setGeneratedPrompt('')
+
+    try {
+      const prompt = await generatePrompt({ framework: selectedFramework, formData })
+      setGeneratedPrompt(prompt)
+      toast({
+        title: 'Prompt generated successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      })
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: err instanceof Error ? err.message : 'Failed to generate prompt',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Box minH="calc(100vh - 100px)" display="flex" alignItems="center" justifyContent="center">
+      <Container maxW="800px" py={8}>
+        <VStack spacing={8} align="stretch">
+          {/* Logo and Title */}
+          <VStack spacing={4} textAlign="center">
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 80 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ margin: '0 auto' }}
+            >
+              <path
+                d="M40 5 L65 20 L65 50 L40 65 L15 50 L15 20 Z"
+                stroke="url(#gradient1)"
+                strokeWidth="2.5"
+                fill="none"
+              />
+              <path
+                d="M40 15 L55 25 L55 45 L40 55 L25 45 L25 25 Z"
+                stroke="url(#gradient2)"
+                strokeWidth="2"
+                fill="rgba(100, 255, 218, 0.1)"
+              />
+              <path
+                d="M35 30 L35 50 M35 30 L45 30 L45 40 L35 40"
+                stroke="#64FFDA"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <defs>
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#64FFDA" />
+                  <stop offset="50%" stopColor="#00D9FF" />
+                  <stop offset="100%" stopColor="#7C3AED" />
+                </linearGradient>
+                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00D9FF" />
+                  <stop offset="100%" stopColor="#64FFDA" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <Heading
+              fontSize="5xl"
+              fontWeight="bold"
+              bgGradient="linear(to-r, #64FFDA, #00D9FF)"
+              bgClip="text"
+              letterSpacing="tight"
+            >
+              Prompt Archi
+            </Heading>
+          </VStack>
+
+          {/* Framework Selector */}
+          <Box
+            bg="rgba(15, 20, 35, 0.6)"
+            backdropFilter="blur(20px)"
+            border="1px solid rgba(100, 255, 218, 0.3)"
+            borderRadius="full"
+            overflow="hidden"
+            transition="all 0.3s"
+            _hover={{
+              borderColor: '#64FFDA',
+              boxShadow: '0 0 20px rgba(100, 255, 218, 0.2)'
+            }}
           >
-            <Box
-              p={6}
-              borderRadius="xl"
-              bg="rgba(15, 20, 35, 0.8)"
-              backdropFilter="blur(20px)"
-              border="1px solid rgba(100, 255, 218, 0.2)"
-              transition="all 0.3s"
-              _hover={{
-                transform: 'translateY(-4px)',
-                borderColor: '#64FFDA',
-                boxShadow: '0 8px 30px rgba(100, 255, 218, 0.2)'
+            <Select
+              placeholder="Select a prompting framework..."
+              value={selectedFrameworkId}
+              onChange={handleFrameworkChange}
+              size="lg"
+              border="none"
+              color="white"
+              fontSize="md"
+              _focus={{ boxShadow: 'none' }}
+              _placeholder={{ color: 'gray.400' }}
+              cursor="pointer"
+              icon={<></>}
+              sx={{
+                '> option': {
+                  background: '#1a1f3a',
+                  color: 'white',
+                }
               }}
             >
-              <VStack align="stretch" spacing={4}>
-                <Heading size="md" color="white">{framework.name}</Heading>
-                <Text color="gray.300">{framework.description}</Text>
-                <HStack spacing={2} flexWrap="wrap">
-                  {framework.useCases.map((useCase) => (
-                    <Badge
-                      key={useCase}
-                      px={3}
-                      py={1}
-                      borderRadius="md"
-                      bg="rgba(100, 255, 218, 0.1)"
-                      color="#64FFDA"
-                      border="1px solid rgba(100, 255, 218, 0.3)"
-                    >
-                      {useCase}
-                    </Badge>
+              {frameworks.map((framework) => (
+                <option key={framework.id} value={framework.id}>
+                  {framework.name}
+                </option>
+              ))}
+            </Select>
+          </Box>
+
+          {/* Framework Description */}
+          {selectedFramework && (
+            <Fade in={!!selectedFramework}>
+              <Text 
+                textAlign="center" 
+                color="gray.400" 
+                fontSize="sm"
+                px={4}
+              >
+                {selectedFramework.description}
+              </Text>
+            </Fade>
+          )}
+
+          {/* Dynamic Form */}
+          {selectedFramework && (
+            <ScaleFade in={!!selectedFramework} initialScale={0.95}>
+              <Box
+                as="form"
+                onSubmit={handleSubmit}
+                p={8}
+                borderRadius="2xl"
+                bg="rgba(15, 20, 35, 0.8)"
+                backdropFilter="blur(20px)"
+                border="1px solid rgba(100, 255, 218, 0.2)"
+                boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
+              >
+                <VStack spacing={6} align="stretch">
+                  {selectedFramework.components.map((component) => (
+                    <FormControl key={component}>
+                      <FormLabel 
+                        color="gray.300" 
+                        fontSize="sm" 
+                        fontWeight="medium"
+                        mb={2}
+                      >
+                        {component}
+                      </FormLabel>
+                      {component.toLowerCase().includes('description') || 
+                       component.toLowerCase().includes('context') ||
+                       component.toLowerCase().includes('example') ? (
+                        <Textarea
+                          value={formData[component] || ''}
+                          onChange={(e) => handleInputChange(component, e.target.value)}
+                          placeholder={`Enter ${component.toLowerCase()}...`}
+                          bg="rgba(15, 20, 35, 0.6)"
+                          border="1px solid rgba(100, 255, 218, 0.3)"
+                          color="white"
+                          rows={3}
+                          _placeholder={{ color: 'gray.500' }}
+                          _hover={{ 
+                            bg: 'rgba(15, 20, 35, 0.8)',
+                            borderColor: 'rgba(100, 255, 218, 0.5)'
+                          }}
+                          _focus={{
+                            bg: 'rgba(15, 20, 35, 0.9)',
+                            borderColor: '#64FFDA',
+                            boxShadow: '0 0 0 1px #64FFDA'
+                          }}
+                        />
+                      ) : (
+                        <Input
+                          value={formData[component] || ''}
+                          onChange={(e) => handleInputChange(component, e.target.value)}
+                          placeholder={`Enter ${component.toLowerCase()}...`}
+                          bg="rgba(15, 20, 35, 0.6)"
+                          border="1px solid rgba(100, 255, 218, 0.3)"
+                          color="white"
+                          size="lg"
+                          _placeholder={{ color: 'gray.500' }}
+                          _hover={{ 
+                            bg: 'rgba(15, 20, 35, 0.8)',
+                            borderColor: 'rgba(100, 255, 218, 0.5)'
+                          }}
+                          _focus={{
+                            bg: 'rgba(15, 20, 35, 0.9)',
+                            borderColor: '#64FFDA',
+                            boxShadow: '0 0 0 1px #64FFDA'
+                          }}
+                        />
+                      )}
+                    </FormControl>
                   ))}
-                </HStack>
-              </VStack>
-            </Box>
-          </ChakraLink>
-        ))}
-      </SimpleGrid>
-    </VStack>
+
+                  <Button
+                    type="submit"
+                    size="lg"
+                    bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
+                    color="gray.900"
+                    fontWeight="bold"
+                    isLoading={isLoading}
+                    loadingText="Generating..."
+                    _hover={{
+                      bg: 'linear-gradient(135deg, #7CFFE8 0%, #1AE3FF 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 20px rgba(100, 255, 218, 0.4)'
+                    }}
+                    _active={{
+                      transform: 'translateY(0)',
+                    }}
+                  >
+                    Generate Prompt
+                  </Button>
+                </VStack>
+              </Box>
+            </ScaleFade>
+          )}
+
+          {/* Generated Prompt */}
+          {generatedPrompt && (
+            <ScaleFade in={!!generatedPrompt} initialScale={0.95}>
+              <Box
+                p={8}
+                borderRadius="2xl"
+                bg="rgba(15, 20, 35, 0.8)"
+                backdropFilter="blur(20px)"
+                border="1px solid rgba(100, 255, 218, 0.2)"
+                boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
+              >
+                <VStack spacing={4} align="stretch">
+                  <Heading size="md" color="white">
+                    Generated Prompt
+                  </Heading>
+                  <Text 
+                    whiteSpace="pre-wrap" 
+                    color="gray.300"
+                    fontSize="md"
+                    lineHeight="tall"
+                  >
+                    {generatedPrompt}
+                  </Text>
+                  <Button
+                    bg="rgba(100, 255, 218, 0.1)"
+                    color="#64FFDA"
+                    border="1px solid rgba(100, 255, 218, 0.3)"
+                    _hover={{
+                      bg: 'rgba(100, 255, 218, 0.2)',
+                      borderColor: '#64FFDA'
+                    }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(generatedPrompt)
+                      toast({
+                        title: 'Copied to clipboard',
+                        status: 'success',
+                        duration: 2000,
+                        isClosable: true,
+                        position: 'top',
+                      })
+                    }}
+                  >
+                    Copy to Clipboard
+                  </Button>
+                </VStack>
+              </Box>
+            </ScaleFade>
+          )}
+        </VStack>
+      </Container>
+    </Box>
   )
 }
 
