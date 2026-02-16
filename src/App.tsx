@@ -5,13 +5,16 @@ import Home from './pages/Home'
 import FrameworkDetail from './pages/FrameworkDetail'
 import { ThemeProvider } from './context/ThemeContext'
 import { ThemeToggle } from './components/ThemeToggle'
+import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 function App() {
   return (
     <ChakraProvider>
       <ThemeProvider>
-        <Router>
-          <Box className="app-container">
+        <AuthProvider>
+          <Router>
+            <Box className="app-container">
             {/* Background circles for added effect */}
             <Box
               position="absolute"
@@ -34,25 +37,28 @@ function App() {
               zIndex={0}
             />
             
-            <ThemeToggle />
-            <Box className="glass-nav">
-              <Navbar />
-            </Box>
-            <Box 
-              maxW="1200px" 
-              mx="auto" 
-              px={4} 
-              py={8}
-              position="relative"
-              zIndex={1}
-            >
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/framework/:id" element={<FrameworkDetail />} />
-              </Routes>
-            </Box>
+            <ProtectedRoute>
+              <ThemeToggle />
+              <Box className="glass-nav">
+                <Navbar />
+              </Box>
+              <Box 
+                maxW="1200px" 
+                mx="auto" 
+                px={4} 
+                py={8}
+                position="relative"
+                zIndex={1}
+              >
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/framework/:id" element={<FrameworkDetail />} />
+                </Routes>
+              </Box>
+            </ProtectedRoute>
           </Box>
         </Router>
+        </AuthProvider>
       </ThemeProvider>
     </ChakraProvider>
   )

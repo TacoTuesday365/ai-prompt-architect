@@ -6,7 +6,34 @@ interface GeneratePromptParams {
   formData: Record<string, string>;
 }
 
+// Rate limiting: Track requests per session
+const rateLimitStore = {
+  requests: [] as number[],
+  maxRequests: 10, // Max 10 requests
+  timeWindow: 60 * 60 * 1000, // Per hour (in milliseconds)
+}
+
+function checkRateLimit(): boolean {
+  const now = Date.now()
+  // Remove old requests outside the time window
+  rateLimitStore.requests = rateLimitStore.requests.filter(
+    time => now - time < rateLimitStore.timeWindow
+  )
+  
+  if (rateLimitStore.requests.length >= rateLimitStore.maxRequests) {
+    return false // Rate limit exceeded
+  }
+  
+  rateLimitStore.requests.push(now)
+  return true
+}
+
 export async function generatePrompt({ framework, formData }: GeneratePromptParams) {
+  // Check rate limit first
+  if (!checkRateLimit()) {
+    throw new Error('Rate limit exceeded. Please wait before making more requests. (Max 10 requests per hour)')
+  }
+
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
 
   if (!apiKey) {
