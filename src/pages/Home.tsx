@@ -14,6 +14,7 @@ import {
   Container,
   Fade,
   ScaleFade,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { frameworks } from '../data/frameworks'
 import { generatePrompt } from '../services/ai'
@@ -73,14 +74,14 @@ const Home = () => {
   }
 
   return (
-    <Box minH="calc(100vh - 100px)" display="flex" alignItems="center" justifyContent="center">
-      <Container maxW="800px" py={8}>
-        <VStack spacing={8} align="stretch">
+    <Box pt={4} pb={8}>
+      <Container maxW="1000px">
+        <VStack spacing={6} align="stretch">
           {/* Logo and Title */}
-          <VStack spacing={4} textAlign="center">
+          <VStack spacing={3} textAlign="center">
             <svg
-              width="120"
-              height="120"
+              width="80"
+              height="80"
               viewBox="0 0 80 80"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +119,7 @@ const Home = () => {
               </defs>
             </svg>
             <Heading
-              fontSize="5xl"
+              fontSize="4xl"
               fontWeight="bold"
               bgGradient="linear(to-r, #64FFDA, #00D9FF)"
               bgClip="text"
@@ -175,153 +176,174 @@ const Home = () => {
                 textAlign="center" 
                 color="gray.400" 
                 fontSize="sm"
-                px={4}
               >
                 {selectedFramework.description}
               </Text>
             </Fade>
           )}
 
-          {/* Dynamic Form */}
+          {/* Dynamic Form and Generated Prompt Side by Side */}
           {selectedFramework && (
             <ScaleFade in={!!selectedFramework} initialScale={0.95}>
-              <Box
-                as="form"
-                onSubmit={handleSubmit}
-                p={8}
-                borderRadius="2xl"
-                bg="rgba(15, 20, 35, 0.8)"
-                backdropFilter="blur(20px)"
-                border="1px solid rgba(100, 255, 218, 0.2)"
-                boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
-              >
-                <VStack spacing={6} align="stretch">
-                  {selectedFramework.components.map((component) => (
-                    <FormControl key={component}>
-                      <FormLabel 
-                        color="gray.300" 
-                        fontSize="sm" 
-                        fontWeight="medium"
-                        mb={2}
+              <SimpleGrid columns={{ base: 1, lg: generatedPrompt ? 2 : 1 }} spacing={6}>
+                {/* Form */}
+                <Box
+                  as="form"
+                  onSubmit={handleSubmit}
+                  p={6}
+                  borderRadius="xl"
+                  bg="rgba(15, 20, 35, 0.8)"
+                  backdropFilter="blur(20px)"
+                  border="1px solid rgba(100, 255, 218, 0.2)"
+                  boxShadow="0 10px 40px rgba(0, 0, 0, 0.3)"
+                >
+                  <VStack spacing={4} align="stretch">
+                    {selectedFramework.components.map((component) => (
+                      <FormControl key={component} size="sm">
+                        <FormLabel 
+                          color="gray.300" 
+                          fontSize="xs" 
+                          fontWeight="medium"
+                          mb={1}
+                        >
+                          {component}
+                        </FormLabel>
+                        {component.toLowerCase().includes('description') || 
+                         component.toLowerCase().includes('context') ||
+                         component.toLowerCase().includes('example') ? (
+                          <Textarea
+                            value={formData[component] || ''}
+                            onChange={(e) => handleInputChange(component, e.target.value)}
+                            placeholder={`Enter ${component.toLowerCase()}...`}
+                            bg="rgba(15, 20, 35, 0.6)"
+                            border="1px solid rgba(100, 255, 218, 0.3)"
+                            color="white"
+                            rows={2}
+                            fontSize="sm"
+                            _placeholder={{ color: 'gray.500' }}
+                            _hover={{ 
+                              bg: 'rgba(15, 20, 35, 0.8)',
+                              borderColor: 'rgba(100, 255, 218, 0.5)'
+                            }}
+                            _focus={{
+                              bg: 'rgba(15, 20, 35, 0.9)',
+                              borderColor: '#64FFDA',
+                              boxShadow: '0 0 0 1px #64FFDA'
+                            }}
+                          />
+                        ) : (
+                          <Input
+                            value={formData[component] || ''}
+                            onChange={(e) => handleInputChange(component, e.target.value)}
+                            placeholder={`Enter ${component.toLowerCase()}...`}
+                            bg="rgba(15, 20, 35, 0.6)"
+                            border="1px solid rgba(100, 255, 218, 0.3)"
+                            color="white"
+                            size="md"
+                            fontSize="sm"
+                            _placeholder={{ color: 'gray.500' }}
+                            _hover={{ 
+                              bg: 'rgba(15, 20, 35, 0.8)',
+                              borderColor: 'rgba(100, 255, 218, 0.5)'
+                            }}
+                            _focus={{
+                              bg: 'rgba(15, 20, 35, 0.9)',
+                              borderColor: '#64FFDA',
+                              boxShadow: '0 0 0 1px #64FFDA'
+                            }}
+                          />
+                        )}
+                      </FormControl>
+                    ))}
+
+                    <Button
+                      type="submit"
+                      size="md"
+                      bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
+                      color="gray.900"
+                      fontWeight="bold"
+                      isLoading={isLoading}
+                      loadingText="Generating..."
+                      _hover={{
+                        bg: 'linear-gradient(135deg, #7CFFE8 0%, #1AE3FF 100%)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 20px rgba(100, 255, 218, 0.4)'
+                      }}
+                      _active={{
+                        transform: 'translateY(0)',
+                      }}
+                    >
+                      Generate Prompt
+                    </Button>
+                  </VStack>
+                </Box>
+
+                {/* Generated Prompt */}
+                {generatedPrompt && (
+                  <Box
+                    p={6}
+                    borderRadius="xl"
+                    bg="rgba(15, 20, 35, 0.8)"
+                    backdropFilter="blur(20px)"
+                    border="1px solid rgba(100, 255, 218, 0.2)"
+                    boxShadow="0 10px 40px rgba(0, 0, 0, 0.3)"
+                  >
+                    <VStack spacing={3} align="stretch">
+                      <Heading size="sm" color="white">
+                        Generated Prompt
+                      </Heading>
+                      <Text 
+                        whiteSpace="pre-wrap" 
+                        color="gray.300"
+                        fontSize="sm"
+                        lineHeight="tall"
+                        maxH="400px"
+                        overflowY="auto"
+                        css={{
+                          '&::-webkit-scrollbar': {
+                            width: '8px',
+                          },
+                          '&::-webkit-scrollbar-track': {
+                            background: 'rgba(15, 20, 35, 0.6)',
+                            borderRadius: '4px',
+                          },
+                          '&::-webkit-scrollbar-thumb': {
+                            background: 'rgba(100, 255, 218, 0.3)',
+                            borderRadius: '4px',
+                          },
+                          '&::-webkit-scrollbar-thumb:hover': {
+                            background: 'rgba(100, 255, 218, 0.5)',
+                          },
+                        }}
                       >
-                        {component}
-                      </FormLabel>
-                      {component.toLowerCase().includes('description') || 
-                       component.toLowerCase().includes('context') ||
-                       component.toLowerCase().includes('example') ? (
-                        <Textarea
-                          value={formData[component] || ''}
-                          onChange={(e) => handleInputChange(component, e.target.value)}
-                          placeholder={`Enter ${component.toLowerCase()}...`}
-                          bg="rgba(15, 20, 35, 0.6)"
-                          border="1px solid rgba(100, 255, 218, 0.3)"
-                          color="white"
-                          rows={3}
-                          _placeholder={{ color: 'gray.500' }}
-                          _hover={{ 
-                            bg: 'rgba(15, 20, 35, 0.8)',
-                            borderColor: 'rgba(100, 255, 218, 0.5)'
-                          }}
-                          _focus={{
-                            bg: 'rgba(15, 20, 35, 0.9)',
-                            borderColor: '#64FFDA',
-                            boxShadow: '0 0 0 1px #64FFDA'
-                          }}
-                        />
-                      ) : (
-                        <Input
-                          value={formData[component] || ''}
-                          onChange={(e) => handleInputChange(component, e.target.value)}
-                          placeholder={`Enter ${component.toLowerCase()}...`}
-                          bg="rgba(15, 20, 35, 0.6)"
-                          border="1px solid rgba(100, 255, 218, 0.3)"
-                          color="white"
-                          size="lg"
-                          _placeholder={{ color: 'gray.500' }}
-                          _hover={{ 
-                            bg: 'rgba(15, 20, 35, 0.8)',
-                            borderColor: 'rgba(100, 255, 218, 0.5)'
-                          }}
-                          _focus={{
-                            bg: 'rgba(15, 20, 35, 0.9)',
-                            borderColor: '#64FFDA',
-                            boxShadow: '0 0 0 1px #64FFDA'
-                          }}
-                        />
-                      )}
-                    </FormControl>
-                  ))}
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
-                    color="gray.900"
-                    fontWeight="bold"
-                    isLoading={isLoading}
-                    loadingText="Generating..."
-                    _hover={{
-                      bg: 'linear-gradient(135deg, #7CFFE8 0%, #1AE3FF 100%)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 20px rgba(100, 255, 218, 0.4)'
-                    }}
-                    _active={{
-                      transform: 'translateY(0)',
-                    }}
-                  >
-                    Generate Prompt
-                  </Button>
-                </VStack>
-              </Box>
-            </ScaleFade>
-          )}
-
-          {/* Generated Prompt */}
-          {generatedPrompt && (
-            <ScaleFade in={!!generatedPrompt} initialScale={0.95}>
-              <Box
-                p={8}
-                borderRadius="2xl"
-                bg="rgba(15, 20, 35, 0.8)"
-                backdropFilter="blur(20px)"
-                border="1px solid rgba(100, 255, 218, 0.2)"
-                boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
-              >
-                <VStack spacing={4} align="stretch">
-                  <Heading size="md" color="white">
-                    Generated Prompt
-                  </Heading>
-                  <Text 
-                    whiteSpace="pre-wrap" 
-                    color="gray.300"
-                    fontSize="md"
-                    lineHeight="tall"
-                  >
-                    {generatedPrompt}
-                  </Text>
-                  <Button
-                    bg="rgba(100, 255, 218, 0.1)"
-                    color="#64FFDA"
-                    border="1px solid rgba(100, 255, 218, 0.3)"
-                    _hover={{
-                      bg: 'rgba(100, 255, 218, 0.2)',
-                      borderColor: '#64FFDA'
-                    }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(generatedPrompt)
-                      toast({
-                        title: 'Copied to clipboard',
-                        status: 'success',
-                        duration: 2000,
-                        isClosable: true,
-                        position: 'top',
-                      })
-                    }}
-                  >
-                    Copy to Clipboard
-                  </Button>
-                </VStack>
-              </Box>
+                        {generatedPrompt}
+                      </Text>
+                      <Button
+                        size="sm"
+                        bg="rgba(100, 255, 218, 0.1)"
+                        color="#64FFDA"
+                        border="1px solid rgba(100, 255, 218, 0.3)"
+                        _hover={{
+                          bg: 'rgba(100, 255, 218, 0.2)',
+                          borderColor: '#64FFDA'
+                        }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(generatedPrompt)
+                          toast({
+                            title: 'Copied to clipboard',
+                            status: 'success',
+                            duration: 2000,
+                            isClosable: true,
+                            position: 'top',
+                          })
+                        }}
+                      >
+                        Copy to Clipboard
+                      </Button>
+                    </VStack>
+                  </Box>
+                )}
+              </SimpleGrid>
             </ScaleFade>
           )}
         </VStack>
