@@ -25,38 +25,41 @@ export const handler: Handler = async (event) => {
 
     const genAI = new GoogleGenerativeAI(apiKey)
     
-    // Try to list available models
+    // Try to list available models using the API
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" })
-      const result = await model.generateContent("Say hello")
-      const response = await result.response
-      const text = response.text()
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
+      )
       
-      return {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          success: true,
-          message: 'API key is working!',
-          testResponse: text,
-          model: 'gemini-1.5-flash-latest'
-        })
+      if (!response.ok) {
+        const errorText = await response.text()
+        return {
+          statusCode: response.status,
+          body: JSON.stringify({ 
+            error: 'Failed to list models',
+            status: response.status,
+            details: errorText,
+            apiKeyPrefix: apiKey.substring(0, 10) + '...'
+          })
+        }
       }
-    } catch (modelError) {
-      // Try alternative model names
-      const modelsToTry = [
-        'gemini-1.5-flash',
-        'gemini-1.5-pro-latest',
-        'gemini-1.5-pro',
-        'models/gemini-1.5-flash-latest',
-        'models/gemini-1.5-flash'
-      ]
       
-      for (const modelName of modelsToTry) {
+      const data = await response.json()
+      
+      // Extract model names that support generateContent
+      const availableModels = data.models
+        ?.filter((m: any) => m.supportedGenerationMethods?.includes('generateContent'))
+        ?.map((m: any) => ({
+          name: m.name,
+          displayName: m.displayName,
+          description: m.description
+        })) || []
+      
+      // Try the first available model
+      if (availableModels.length > 0) {
+        const firstModel = availableModels[0].name.replace('models/', '')
         try {
-          const model = genAI.getGenerativeModel({ model: modelName })
+          const model = genAI.getGenerativeModel({ model: firstModel })
           const result = await model.generateContent("Say hello")
           const response = await result.response
           const text = response.text()
@@ -68,23 +71,45 @@ export const handler: Handler = async (event) => {
             },
             body: JSON.stringify({ 
               success: true,
-              message: 'Found working model!',
-              workingModel: modelName,
-              testResponse: text
+              message: 'API key is working!',
+              workingModel: firstModel,
+              testResponse: text,
+              availableModels: availableModels
             })
           }
-        } catch (e) {
-          // Continue to next model
-          continue
+        } catch (testError) {
+          return {
+            statusCode: 200,
+            body: JSON.stringify({ 
+              success: false,
+              message: 'Found models but test failed',
+              availableModels: availableModels,
+              testError: testError instanceof Error ? testError.message : String(testError)
+            })
+          }
         }
       }
       
       return {
+        statusCode: 200,
+        body: JSON.stringify({ 
+          success: false,
+          message: 'No models found that support generateContent',
+          allModels: data.models?.map((m: any) => ({
+            name: m.name,
+            methods: m.supportedGenerationMethods
+          }))
+        })
+      }
+      
+    } catch (listError) {
+      return {
         statusCode: 500,
         body: JSON.stringify({ 
-          error: 'Could not find working model',
-          originalError: modelError instanceof Error ? modelError.message : String(modelError),
-          triedModels: modelsToTry
+          error: 'Failed to list models',
+          details: listError instanceof Error ? listError.message : String(listError),
+          apiKeyLength: apiKey.length,
+          apiKeyPrefix: apiKey.substring(0, 10) + '...'
         })
       }
     }
