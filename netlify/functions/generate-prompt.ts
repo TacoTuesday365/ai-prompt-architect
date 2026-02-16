@@ -55,7 +55,8 @@ export const handler: Handler = async (event) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+    // Try gemini-1.5-flash first (more stable quota), fallback to 2.0 if needed
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
     const prompt = `You are an AI prompt engineering expert.
 Your task is to create an effective prompt using the ${framework.name}.
@@ -83,10 +84,17 @@ The prompt should be clear, specific, and designed to get the best possible resp
     }
   } catch (error) {
     console.error('Error generating prompt:', error)
+    
+    // Check if it's a quota error
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate prompt'
+    const isQuotaError = errorMessage.includes('quota') || errorMessage.includes('429')
+    
     return {
-      statusCode: 500,
+      statusCode: isQuotaError ? 429 : 500,
       body: JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Failed to generate prompt' 
+        error: isQuotaError 
+          ? 'Google AI quota exceeded. Please try again later or contact the administrator to upgrade the API plan.'
+          : errorMessage
       })
     }
   }
