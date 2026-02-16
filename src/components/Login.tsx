@@ -83,10 +83,10 @@ export const Login = () => {
   const { login } = useAuth()
   const toast = useToast()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    const success = login(password)
+    const success = await login(password)
     
     if (success) {
       toast({

@@ -2,7 +2,12 @@
 
 ## What Was Added
 
-### 1. Authentication System ✓
+### 1. Serverless Functions (Netlify Functions) ✓
+- **Authentication endpoint** (`/.netlify/functions/auth`) - validates passwords server-side
+- **AI generation endpoint** (`/.netlify/functions/generate-prompt`) - calls Google AI API server-side
+- **Secrets never exposed** to client bundle - all sensitive operations happen on the server
+
+### 2. Authentication System ✓
 - **Login page** with password protection
 - **Session-based authentication** (stays logged in during browser session)
 - **Protected routes** - entire app requires login
@@ -33,9 +38,11 @@ Since your current key's quota is exhausted:
 ### 2. Configure Netlify Environment Variables
 Go to: Netlify Dashboard → Your Site → Site settings → Environment variables
 
-Add these two variables:
-- `VITE_GOOGLE_API_KEY` = your new Google AI API key
-- `VITE_APP_PASSWORD` = choose a strong password
+Add these two variables (WITHOUT VITE_ prefix):
+- `GOOGLE_API_KEY` = your new Google AI API key
+- `APP_PASSWORD` = choose a strong password
+
+**CRITICAL:** Do NOT use `VITE_GOOGLE_API_KEY` or `VITE_APP_PASSWORD` on Netlify. The `VITE_` prefix exposes secrets to the client bundle. Use `GOOGLE_API_KEY` and `APP_PASSWORD` instead.
 
 ### 3. Redeploy
 After adding environment variables, trigger a new deployment.
@@ -43,19 +50,23 @@ After adding environment variables, trigger a new deployment.
 ## How It Works
 
 1. **User visits promptarchi.com** → Sees login page
-2. **Enters password** → Validated against `VITE_APP_PASSWORD`
+2. **Enters password** → Sent to `/.netlify/functions/auth` (server-side validation)
 3. **Successful login** → Can access all features
-4. **Makes API request** → Rate limiter checks if under 10/hour
-5. **Within limit** → Request proceeds to Google AI
-6. **Over limit** → Error message shown, request blocked
+4. **Makes API request** → Sent to `/.netlify/functions/generate-prompt`
+5. **Server checks rate limit** → If under 10/hour, proceeds
+6. **Server calls Google AI** → Using server-side API key
+7. **Response returned** → User sees generated prompt
+
+**Key difference:** All secrets stay on the server. The client never sees API keys or passwords.
 
 ## Security Benefits
 
 - ✓ Only you can access the site (password protected)
-- ✓ API key never exposed in code (environment variables)
-- ✓ Rate limiting prevents quota exhaustion
+- ✓ API key NEVER exposed in client code (serverless functions)
+- ✓ Password NEVER exposed in client code (serverless functions)
+- ✓ Rate limiting prevents quota exhaustion (server-side)
 - ✓ `.gitignore` prevents accidental key commits
-- ✓ Session-based auth (no cookies or complex setup)
+- ✓ Netlify secrets scanner will pass (no VITE_ secrets in bundle)
 
 ## Your API Key Status
 

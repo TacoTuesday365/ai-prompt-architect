@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 interface AuthContextType {
   isAuthenticated: boolean
-  login: (password: string) => boolean
+  login: (password: string) => Promise<boolean>
   logout: () => void
 }
 
@@ -19,20 +19,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [])
 
-  const login = (password: string) => {
-    const correctPassword = import.meta.env.VITE_APP_PASSWORD
-    
-    if (!correctPassword) {
-      console.error('App password not configured')
+  const login = async (password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/.netlify/functions/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setIsAuthenticated(true)
+        sessionStorage.setItem('isAuthenticated', 'true')
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error('Login error:', error)
       return false
     }
-
-    if (password === correctPassword) {
-      setIsAuthenticated(true)
-      sessionStorage.setItem('isAuthenticated', 'true')
-      return true
-    }
-    return false
   }
 
   const logout = () => {

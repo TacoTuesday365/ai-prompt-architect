@@ -29,9 +29,11 @@ This application now includes authentication and rate limiting to protect your A
 
 1. Go to your Netlify site dashboard
 2. Navigate to: Site settings → Environment variables
-3. Add the following environment variables:
-   - `VITE_GOOGLE_API_KEY`: Your Google AI API key
-   - `VITE_APP_PASSWORD`: Your chosen password
+3. Add the following environment variables (WITHOUT the VITE_ prefix):
+   - `GOOGLE_API_KEY`: Your Google AI API key
+   - `APP_PASSWORD`: Your chosen password
+
+**IMPORTANT:** Do NOT use `VITE_` prefix for production environment variables on Netlify. The `VITE_` prefix exposes variables to the client bundle, which is a security risk. The serverless functions will use `GOOGLE_API_KEY` and `APP_PASSWORD` directly.
 
 4. Redeploy your site
 
@@ -54,9 +56,8 @@ If your API key has been compromised or quota exhausted:
 1. Go to https://ai.google.dev/
 2. Create a new API key
 3. Delete the old API key
-4. Update `VITE_GOOGLE_API_KEY` in:
-   - Local `.env` file
-   - Netlify environment variables
+4. Update `GOOGLE_API_KEY` in:
+   - Netlify environment variables (without VITE_ prefix)
 5. Redeploy on Netlify
 
 ## Monitoring Usage
@@ -68,7 +69,8 @@ If your API key has been compromised or quota exhausted:
 ## Troubleshooting
 
 ### "App password not configured" error
-- Make sure `VITE_APP_PASSWORD` is set in your environment variables
+- Make sure `APP_PASSWORD` is set in your Netlify environment variables (without VITE_ prefix)
+- For local development, use `VITE_APP_PASSWORD` in your `.env` file
 - For Netlify, check Site settings → Environment variables
 - Redeploy after adding the variable
 
