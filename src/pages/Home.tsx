@@ -4,10 +4,17 @@ import { frameworks } from '../data/frameworks'
 
 const Home = () => {
   return (
-    <VStack spacing={8} align="stretch" className="glass-container">
-      <Box textAlign="center" color="var(--text-primary)">
-        <Heading size="xl" mb={4}>AI Prompting Frameworks</Heading>
-        <Text fontSize="lg" opacity={0.9}>
+    <VStack spacing={8} align="stretch">
+      <Box textAlign="center">
+        <Heading 
+          size="xl" 
+          mb={4}
+          bgGradient="linear(to-r, #64FFDA, #00D9FF)"
+          bgClip="text"
+        >
+          AI Prompting Frameworks
+        </Heading>
+        <Text fontSize="lg" color="gray.300">
           Discover and learn about different AI prompting frameworks to improve your interactions with AI models.
         </Text>
       </Box>
@@ -21,24 +28,31 @@ const Home = () => {
             _hover={{ textDecoration: 'none' }}
           >
             <Box
-              className="glass-card"
               p={6}
+              borderRadius="xl"
+              bg="rgba(15, 20, 35, 0.8)"
+              backdropFilter="blur(20px)"
+              border="1px solid rgba(100, 255, 218, 0.2)"
               transition="all 0.3s"
               _hover={{
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                borderColor: '#64FFDA',
+                boxShadow: '0 8px 30px rgba(100, 255, 218, 0.2)'
               }}
             >
               <VStack align="stretch" spacing={4}>
-                <Heading size="md" color="var(--text-primary)">{framework.name}</Heading>
-                <Text color="var(--text-secondary)">{framework.description}</Text>
+                <Heading size="md" color="white">{framework.name}</Heading>
+                <Text color="gray.300">{framework.description}</Text>
                 <HStack spacing={2} flexWrap="wrap">
                   {framework.useCases.map((useCase) => (
                     <Badge
                       key={useCase}
-                      className="glass-button"
                       px={3}
                       py={1}
+                      borderRadius="md"
+                      bg="rgba(100, 255, 218, 0.1)"
+                      color="#64FFDA"
+                      border="1px solid rgba(100, 255, 218, 0.3)"
                     >
                       {useCase}
                     </Badge>

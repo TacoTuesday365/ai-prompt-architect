@@ -35,9 +35,14 @@ const FrameworkDetail = () => {
 
   if (!framework) {
     return (
-      <Box textAlign="center" className="glass-container">
-        <Heading color="var(--text-primary)">Framework not found</Heading>
-        <ChakraLink as={RouterLink} to="/" color="var(--accent-color)">
+      <Box textAlign="center" p={8}>
+        <Heading color="white" mb={4}>Framework not found</Heading>
+        <ChakraLink 
+          as={RouterLink} 
+          to="/" 
+          color="#64FFDA"
+          _hover={{ color: '#00D9FF' }}
+        >
           Return to home
         </ChakraLink>
       </Box>
@@ -89,51 +94,105 @@ const FrameworkDetail = () => {
   }
 
   return (
-    <VStack spacing={8} align="stretch" className="glass-container">
+    <VStack spacing={8} align="stretch">
       <Box>
-        <Heading size="xl" mb={4} color="var(--text-primary)">{framework.name}</Heading>
-        <Text fontSize="lg" color="var(--text-secondary)" mb={6}>
+        <Heading 
+          size="xl" 
+          mb={4}
+          bgGradient="linear(to-r, #64FFDA, #00D9FF)"
+          bgClip="text"
+        >
+          {framework.name}
+        </Heading>
+        <Text fontSize="lg" color="gray.300" mb={6}>
           {framework.description}
         </Text>
-        <HStack spacing={2} mb={6}>
+        <HStack spacing={2} mb={6} flexWrap="wrap">
           {framework.useCases.map((useCase) => (
-            <Badge key={useCase} className="glass-button">
+            <Badge 
+              key={useCase}
+              px={3}
+              py={1}
+              borderRadius="md"
+              bg="rgba(100, 255, 218, 0.1)"
+              color="#64FFDA"
+              border="1px solid rgba(100, 255, 218, 0.3)"
+            >
               {useCase}
             </Badge>
           ))}
         </HStack>
       </Box>
 
-      <Box className="glass-card">
+      <Box
+        p={6}
+        borderRadius="xl"
+        bg="rgba(15, 20, 35, 0.8)"
+        backdropFilter="blur(20px)"
+        border="1px solid rgba(100, 255, 218, 0.2)"
+      >
         <form onSubmit={handleSubmit}>
           <VStack spacing={6} align="stretch">
             {framework.components.map((component) => (
               <FormControl key={component}>
-                <FormLabel fontWeight="bold" color="var(--text-primary)">{component}</FormLabel>
+                <FormLabel fontWeight="bold" color="white">{component}</FormLabel>
                 {component.toLowerCase().includes('description') ? (
                   <Textarea
                     value={formData[component] || ''}
                     onChange={(e) => handleInputChange(component, e.target.value)}
                     placeholder={`Enter your ${component.toLowerCase()}`}
-                    className="glass-input"
+                    bg="rgba(15, 20, 35, 0.6)"
+                    border="1px solid rgba(100, 255, 218, 0.3)"
+                    color="white"
+                    _placeholder={{ color: 'gray.500' }}
+                    _hover={{ 
+                      bg: 'rgba(15, 20, 35, 0.8)',
+                      borderColor: 'rgba(100, 255, 218, 0.5)'
+                    }}
+                    _focus={{
+                      bg: 'rgba(15, 20, 35, 0.9)',
+                      borderColor: '#64FFDA',
+                      boxShadow: '0 0 0 1px #64FFDA'
+                    }}
                   />
                 ) : (
                   <Input
                     value={formData[component] || ''}
                     onChange={(e) => handleInputChange(component, e.target.value)}
                     placeholder={`Enter your ${component.toLowerCase()}`}
-                    className="glass-input"
+                    bg="rgba(15, 20, 35, 0.6)"
+                    border="1px solid rgba(100, 255, 218, 0.3)"
+                    color="white"
+                    _placeholder={{ color: 'gray.500' }}
+                    _hover={{ 
+                      bg: 'rgba(15, 20, 35, 0.8)',
+                      borderColor: 'rgba(100, 255, 218, 0.5)'
+                    }}
+                    _focus={{
+                      bg: 'rgba(15, 20, 35, 0.9)',
+                      borderColor: '#64FFDA',
+                      boxShadow: '0 0 0 1px #64FFDA'
+                    }}
                   />
                 )}
               </FormControl>
             ))}
             <Button 
               type="submit" 
-              className="glass-button"
               size="lg"
+              bg="linear-gradient(135deg, #64FFDA 0%, #00D9FF 100%)"
+              color="gray.900"
+              fontWeight="bold"
+              _hover={{
+                bg: 'linear-gradient(135deg, #7CFFE8 0%, #1AE3FF 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 20px rgba(100, 255, 218, 0.4)'
+              }}
+              _active={{
+                transform: 'translateY(0)',
+              }}
               isLoading={isLoading}
               loadingText="Generating..."
-              onClick={() => console.log('Button clicked directly')}
             >
               Generate Prompt
             </Button>
@@ -142,20 +201,37 @@ const FrameworkDetail = () => {
       </Box>
 
       {error && (
-        <Alert status="error" className="glass-card">
-          <AlertIcon />
+        <Alert 
+          status="error"
+          bg="rgba(220, 38, 38, 0.2)"
+          border="1px solid rgba(220, 38, 38, 0.5)"
+          borderRadius="xl"
+          color="white"
+        >
+          <AlertIcon color="red.400" />
           <AlertTitle>Error!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
       {generatedPrompt && (
-        <Box className="glass-card">
-          <Heading size="md" mb={4} color="var(--text-primary)">Generated Prompt</Heading>
-          <Text whiteSpace="pre-wrap" color="var(--text-secondary)">{generatedPrompt}</Text>
+        <Box
+          p={6}
+          borderRadius="xl"
+          bg="rgba(15, 20, 35, 0.8)"
+          backdropFilter="blur(20px)"
+          border="1px solid rgba(100, 255, 218, 0.2)"
+        >
+          <Heading size="md" mb={4} color="white">Generated Prompt</Heading>
+          <Text whiteSpace="pre-wrap" color="gray.300" mb={4}>{generatedPrompt}</Text>
           <Button
-            mt={4}
-            className="glass-button"
+            bg="rgba(100, 255, 218, 0.1)"
+            color="#64FFDA"
+            border="1px solid rgba(100, 255, 218, 0.3)"
+            _hover={{
+              bg: 'rgba(100, 255, 218, 0.2)',
+              borderColor: '#64FFDA'
+            }}
             onClick={() => {
               navigator.clipboard.writeText(generatedPrompt)
               toast({
@@ -172,11 +248,17 @@ const FrameworkDetail = () => {
         </Box>
       )}
 
-      <Box className="glass-card">
-        <Heading size="md" mb={4} color="var(--text-primary)">Components</Heading>
+      <Box
+        p={6}
+        borderRadius="xl"
+        bg="rgba(15, 20, 35, 0.8)"
+        backdropFilter="blur(20px)"
+        border="1px solid rgba(100, 255, 218, 0.2)"
+      >
+        <Heading size="md" mb={4} color="white">Components</Heading>
         <List spacing={2}>
           {framework.components.map((component) => (
-            <ListItem key={component} color="var(--text-secondary)">
+            <ListItem key={component} color="gray.300">
               • {component}
             </ListItem>
           ))}

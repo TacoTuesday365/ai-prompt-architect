@@ -3,43 +3,77 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+  min-height: 100vh;
+  color: #e2e8f0;
 }
 
 .app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
 }
 
 /* Navigation */
 .nav-light {
   padding: 16px 24px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+  background: rgba(15, 20, 35, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+.glass-nav {
+  background: rgba(15, 20, 35, 0.6);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+  margin-bottom: 2rem;
 }
 
 /* Card */
 .card {
   padding: 20px;
   margin-bottom: 20px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  transition: all 0.2s ease;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.8);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card:hover {
-  border-color: #0066cc;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #64FFDA;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(100, 255, 218, 0.2);
+  background: rgba(15, 20, 35, 0.9);
 }
 
 /* Button */
 .button {
   padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.8);
+  color: #64FFDA;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: rgba(100, 255, 218, 0.1);
+  border-color: #64FFDA;
+  transform: translateY(-2px);
 } 
