@@ -27,13 +27,6 @@ body {
 }
 
 /* Navigation */
-.nav-light {
-  padding: 16px 24px;
-  background: rgba(15, 20, 35, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-}
-
 .glass-nav {
   background: rgba(15, 20, 35, 0.6);
   backdrop-filter: blur(20px);

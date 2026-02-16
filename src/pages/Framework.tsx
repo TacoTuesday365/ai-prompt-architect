@@ -9,9 +9,20 @@ const Framework = () => {
 
   if (!framework) {
     return (
-      <Box textAlign="center" className="glass-container">
-        <Heading color="var(--text-primary)">Framework not found</Heading>
-        <Button as={RouterLink} to="/" mt={4} className="glass-button">
+      <Box textAlign="center" p={8}>
+        <Heading color="white" mb={4}>Framework not found</Heading>
+        <Button 
+          as={RouterLink} 
+          to="/" 
+          mt={4}
+          bg="rgba(100, 255, 218, 0.1)"
+          color="#64FFDA"
+          border="1px solid rgba(100, 255, 218, 0.3)"
+          _hover={{
+            bg: 'rgba(100, 255, 218, 0.2)',
+            borderColor: '#64FFDA'
+          }}
+        >
           Return to Home
         </Button>
       </Box>
@@ -20,22 +31,38 @@ const Framework = () => {
 
   return (
     <VStack spacing={8} align="stretch">
-      <Box className="glass-card">
+      <Box
+        p={6}
+        borderRadius="xl"
+        bg="rgba(15, 20, 35, 0.8)"
+        backdropFilter="blur(20px)"
+        border="1px solid rgba(100, 255, 218, 0.2)"
+      >
         <VStack align="stretch" spacing={6}>
           <Box>
-            <Heading size="xl" color="var(--text-primary)" mb={4}>{framework.name}</Heading>
-            <Text fontSize="lg" color="var(--text-secondary)">{framework.description}</Text>
+            <Heading 
+              size="xl" 
+              mb={4}
+              bgGradient="linear(to-r, #64FFDA, #00D9FF)"
+              bgClip="text"
+            >
+              {framework.name}
+            </Heading>
+            <Text fontSize="lg" color="gray.300">{framework.description}</Text>
           </Box>
 
           <Box>
-            <Heading size="md" color="var(--text-primary)" mb={3}>Use Cases</Heading>
+            <Heading size="md" color="white" mb={3}>Use Cases</Heading>
             <HStack spacing={2} flexWrap="wrap">
               {framework.useCases.map((useCase) => (
                 <Badge
                   key={useCase}
-                  className="glass-button"
                   px={3}
                   py={1}
+                  borderRadius="md"
+                  bg="rgba(100, 255, 218, 0.1)"
+                  color="#64FFDA"
+                  border="1px solid rgba(100, 255, 218, 0.3)"
                 >
                   {useCase}
                 </Badge>
@@ -44,10 +71,10 @@ const Framework = () => {
           </Box>
 
           <Box>
-            <Heading size="md" color="var(--text-primary)" mb={3}>Components</Heading>
+            <Heading size="md" color="white" mb={3}>Components</Heading>
             <VStack spacing={2} align="stretch">
               {framework.components.map((component) => (
-                <Text key={component} color="var(--text-secondary)">
+                <Text key={component} color="gray.300">
                   • {component}
                 </Text>
               ))}
@@ -56,13 +83,15 @@ const Framework = () => {
 
           {framework.prompt && (
             <Box>
-              <Heading size="md" color="var(--text-primary)" mb={3}>Prompt Template</Heading>
+              <Heading size="md" color="white" mb={3}>Prompt Template</Heading>
               <Box
-                className="glass-container"
                 p={4}
+                borderRadius="lg"
+                bg="rgba(15, 20, 35, 0.6)"
+                border="1px solid rgba(100, 255, 218, 0.2)"
                 position="relative"
               >
-                <Text color="var(--text-secondary)" whiteSpace="pre-wrap" mb={4}>
+                <Text color="gray.300" whiteSpace="pre-wrap" mb={4}>
                   {framework.prompt}
                 </Text>
                 <Button
@@ -71,7 +100,13 @@ const Framework = () => {
                   right={2}
                   size="sm"
                   onClick={onCopy}
-                  className="glass-button"
+                  bg="rgba(100, 255, 218, 0.1)"
+                  color="#64FFDA"
+                  border="1px solid rgba(100, 255, 218, 0.3)"
+                  _hover={{
+                    bg: 'rgba(100, 255, 218, 0.2)',
+                    borderColor: '#64FFDA'
+                  }}
                 >
                   {hasCopied ? 'Copied!' : 'Copy'}
                 </Button>
@@ -81,15 +116,17 @@ const Framework = () => {
 
           {framework.examples && framework.examples.length > 0 && (
             <Box>
-              <Heading size="md" color="var(--text-primary)" mb={3}>Examples</Heading>
+              <Heading size="md" color="white" mb={3}>Examples</Heading>
               <VStack spacing={4} align="stretch">
                 {framework.examples.map((example, index) => (
                   <Box
                     key={index}
-                    className="glass-container"
                     p={4}
+                    borderRadius="lg"
+                    bg="rgba(15, 20, 35, 0.6)"
+                    border="1px solid rgba(100, 255, 218, 0.2)"
                   >
-                    <Text color="var(--text-secondary)" whiteSpace="pre-wrap">
+                    <Text color="gray.300" whiteSpace="pre-wrap">
                       {example}
                     </Text>
                   </Box>
